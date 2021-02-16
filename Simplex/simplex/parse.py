@@ -5,31 +5,28 @@ def parse(filename: Path):
     signs = [">=", "=", "<="]
     variables = ["x1", "x2", "x3", "x4", "x5"]
 
-    coeffs_matrix = list()
-    null_eq = list()
+    matrix = list()
+    line_signs = list()
+    free_vec = list()
+
+    var_signs = list()
     for var in variables:
-        null_eq.append("")
-    func = list()
+        var_signs.append("")
+    target = list()
     
     with filename.open("r") as file:
         for lidx, line in enumerate(file):
-            # Parse line with null inequalities
-            if lidx == 5:
-                line = line.split()
-                for tidx, token in enumerate(line):
-                    if token in signs:
-                        null_eq[int(line[tidx - 1][1]) - 1] = token
-                continue
-
-            # Parse line with target function
-            if lidx == 6:
-                func = line.split()
-                continue
-            
-            # Parse first 5 lines
             line = line.split()
             matrix_line = list()
 
+            # Parse line with null inequalities
+            if lidx == 5:
+                for tidx, token in enumerate(line):
+                    if token in signs:
+                        var_signs[int(line[tidx - 1][1]) - 1] = token
+                continue
+            
+            # Parse any other line
             for tidx, token in enumerate(line):
                 if token.isdigit():
                     if line[tidx - 1] == "+":
@@ -38,8 +35,15 @@ def parse(filename: Path):
                         matrix_line.append(-float(token))
 
                 if token in signs:
-                    matrix_line += [token, float(line[tidx + 1])]
-                    coeffs_matrix.append(matrix_line)
+                    # If line contains target function
+                    if lidx == 6:
+                        target += matrix_line
+                        target.append(line[tidx + 1])
+                    else:
+                        line_signs.append(token)
+                        free_vec.append(float(line[tidx + 1]))
                     break
 
-    return coeffs_matrix, null_eq, func
+            matrix.append(matrix_line)
+
+    return matrix, line_signs, free_vec, var_signs, target

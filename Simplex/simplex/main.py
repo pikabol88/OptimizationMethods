@@ -5,18 +5,20 @@ from simplex.parse import parse
 
 
 def main():
-    matrix, eq, func = parse(Path("config.txt"))
+    matrix, line_signs, free_vec, var_signs, target = parse(Path("config.txt"))
     for line in matrix:
         print(line)
     print()
-    print(eq)
-    print(func)
+    print(line_signs)
+    print(free_vec)
+    print(var_signs)
+    print(target)
 
     print("============================================================================")
 
-    to_canon(matrix, eq, func, 5)
-    for line in matrix:
-        print(line)
-    print()
-    print(eq)
-    print(func)
+    #to_canon(matrix, var, func, 5)
+    #for line in matrix:
+    #    print(line)
+    #print()
+    #print(eq)
+    #print(func)
