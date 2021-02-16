@@ -43,10 +43,3 @@ def parse(filename: Path):
                     break
 
     return coeffs_matrix, null_eq, func
-
-
-if __name__ == '__main__':
-    matrix, eq, func = parse(Path("config.txt"))
-    print(matrix)
-    print(eq)
-    print(func)
