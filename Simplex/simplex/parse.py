@@ -39,11 +39,12 @@ def parse(filename: Path):
                     if lidx == 6:
                         target += matrix_line
                         target.append(line[tidx + 1])
+                        
                     else:
                         line_signs.append(token)
                         free_vec.append(float(line[tidx + 1]))
+                        matrix.append(matrix_line)
                     break
 
-            matrix.append(matrix_line)
 
     return matrix, line_signs, free_vec, var_signs, target
