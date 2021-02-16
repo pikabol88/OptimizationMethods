@@ -6,9 +6,9 @@ def parse(filename: Path):
     variables = ["x1", "x2", "x3", "x4", "x5"]
 
     coeffs_matrix = list()
-    null_eq = dict()
+    null_eq = list()
     for var in variables:
-        null_eq[var] = ""
+        null_eq.append("")
     func = list()
     
     with filename.open("r") as file:
@@ -18,7 +18,7 @@ def parse(filename: Path):
                 line = line.split()
                 for tidx, token in enumerate(line):
                     if token in signs:
-                        null_eq[line[tidx - 1]] = token
+                        null_eq[int(line[tidx - 1][1]) - 1] = token
                 continue
 
             # Parse line with target function
@@ -46,7 +46,7 @@ def parse(filename: Path):
 
 
 if __name__ == '__main__':
-    matrix, eq, func = parse(Path("./Simplex/config.txt"))
+    matrix, eq, func = parse(Path("config.txt"))
     print(matrix)
     print(eq)
     print(func)
