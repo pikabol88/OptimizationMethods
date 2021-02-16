@@ -1,8 +1,10 @@
 def to_dual_task(matrix: list, matrix_signs: list, free_members: list, members_signs: list, target: list):
     dual_matrix = [list(i) for i in zip(*matrix)]
-    dual_free_members = target
+    dual_free_members = []
+    dual_free_members.extend(target)
     dual_free_members.pop()
-    dual_target = free_members
+    dual_target = []
+    dual_target.extend(free_members)
     dual_target.append("max")
 
     dual_matrix_signs = []
