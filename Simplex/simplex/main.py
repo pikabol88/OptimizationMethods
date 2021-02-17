@@ -5,7 +5,7 @@ from simplex.dual_task import to_dual_task
 from simplex.extreme_point import brute_force
 from simplex.print import print_task
 from simplex.parse import parse
-from simplex.simplex import simplex
+from simplex.simplex import simplex, initialize_simplex
 
 
 def main():
@@ -34,5 +34,8 @@ def main():
     print(brute_force(dual_A, dual_b, dual_c))
     print("============================================================================")
 
-    #x = simplex(N, B, A, b, c, v)
-    #print(x)
+    print("***Solution of direct task by simplex method***")
+    N, B, A, b, c, v = initialize_simplex(matrix, free_vec, target, 0)
+    print(simplex(N, B, A, b, c, v))
+    print()
+    print("============================================================================")
