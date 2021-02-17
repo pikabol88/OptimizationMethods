@@ -1,3 +1,79 @@
+from simplex.canonical import to_canon
+
+def first_positive_index(c: list, N: list):
+    for idx, val in enumerate(c):
+        if val > 0 and idx in N:
+            return idx
+
+
+def find_delta_min(delta: list, B: list):
+    min = delta[B[0]]
+
+    if delta.count("inf") == len(delta):
+        return "inf"
+
+    if min == "inf":
+        return "inf"
+
+    for idx, val in enumerate(delta):
+        if val != "inf" and val < min and idx in B:
+            min = val
+    return min
+
+
+def minimizing_index(delta: list, B: list):
+    for idx in B:
+        if delta[idx] == find_delta_min(delta, B):
+            return idx
+
+
+def initialize_simplex(matrix: list, matrix_signs: list, free_members: list, members_signs: list, target: list):
+    n = len(matrix)
+    m = len(matrix[0])
+    k = free_members.index(min(free_members))
+
+    if free_members[k] >= 0:
+        N = [i for i in range(n)]
+        B = [n + i for i in range(m)]
+        v = [0]
+        return N, B, matrix, free_members, target, v
+
+    # Create L_aux
+    for line in matrix:
+        line.append(-1)
+    for idx in range(len(target)):
+        target[idx] = 0
+    target.append(-1)
+    N, B, A, b, c, v = to_canon(matrix, matrix_signs, free_members, members_signs, target)
+
+    l = n + k
+    N, B, A, b, c, v = pivot(N, B, A, b, c, v, l, 0)
+
+    delta = [0 for m in range(len(A[0]))]
+    for j in N:
+        if c[j] > 0:
+            e = first_positive_index(c, N)
+            
+            for i in B:
+                if A[e][i] > 0:
+                    delta[i] = b[i] / A[e][i]
+                else:
+                    delta[i] = "inf"
+            
+            l = minimizing_index(delta, B)
+            if delta[l] == "inf":
+                raise Exception("Задача не ограничена")
+            else:
+                N, B, A, b, c, v = pivot(N, B, A, b, c, v, l, e)
+    
+    if delta[0] == 0:
+        N, B, A, b, c, v = to_canon(A, matrix_signs, b, members_signs, c)
+    else:
+        raise Exception("Задача неразрешима")
+
+    return N, B, A, b, c, v
+
+
 def pivot(N: list, B: list, A: list, b: list, c: list, v: list, l: int, e: int):
     N_new = list()
     B_new = list()
@@ -40,33 +116,6 @@ def pivot(N: list, B: list, A: list, b: list, c: list, v: list, l: int, e: int):
             B_new.append(i)
 
     return N_new, B_new, A_new, b_new, c_new, v_new
-
-
-def first_positive_index(c: list, N: list):
-    for idx, val in enumerate(c):
-        if val > 0 and idx in N:
-            return idx
-
-
-def find_delta_min(delta: list, B: list):
-    min = delta[B[0]]
-
-    if delta.count("inf") == len(delta):
-        return "inf"
-
-    if min == "inf":
-        return "inf"
-
-    for idx, val in enumerate(delta):
-        if val != "inf" and val < min and idx in B:
-            min = val
-    return min
-
-
-def minimizing_index(delta: list, B: list):
-    for idx in B:
-        if delta[idx] == find_delta_min(delta, B):
-            return idx
 
 
 def simplex(N: list, B: list, A: list, b: list, c: list, v: list):
