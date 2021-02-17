@@ -34,6 +34,8 @@ def main():
     print(brute_force(dual_A, dual_b, dual_c))
     print("============================================================================")
 
-    N, B, A, b, c, v = initialize_simplex(matrix, line_signs, free_vec, var_signs, target)
-    x = simplex(N, B, A, b, c, v)
-    print(x)
+    print("***Solution of direct task by simplex method***")
+    N, B, A, b, c, v = initialize_simplex(matrix, free_vec, target, 0)
+    print(simplex(N, B, A, b, c, v))
+    print()
+    print("============================================================================")

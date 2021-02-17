@@ -1,111 +1,54 @@
 from simplex.canonical import to_canon
-
-def first_positive_index(c: list, N: list):
-    for idx, val in enumerate(c):
-        if val > 0 and idx in N:
-            return idx
+from simplex.utils import *
 
 
-def find_delta_min(delta: list, B: list):
-    min = delta[B[0]]
+def initialize_simplex(A, b, c, v):
+    rows = len(A)
+    cols = len(A[0])
 
-    if delta.count("inf") == len(delta):
-        return "inf"
-
-    if min == "inf":
-        return "inf"
-
-    for idx, val in enumerate(delta):
-        if val != "inf" and val < min and idx in B:
-            min = val
-    return min
-
-
-def minimizing_index(delta: list, B: list):
-    for idx in B:
-        if delta[idx] == find_delta_min(delta, B):
-            return idx
-
-
-def initialize_simplex(matrix: list, matrix_signs: list, free_members: list, members_signs: list, target: list):
-    n = len(matrix)
-    m = len(matrix[0])
-    k = free_members.index(min(free_members))
-
-    if free_members[k] >= 0:
-        N = [i for i in range(n)]
-        B = [n + i for i in range(m)]
-        v = [0]
-        return N, B, matrix, free_members, target, v
-
-    # Create L_aux
-    for line in matrix:
-        line.append(-1)
-    for idx in range(len(target)):
-        target[idx] = 0
-    target.append(-1)
-    N, B, A, b, c, v = to_canon(matrix, matrix_signs, free_members, members_signs, target)
-
-    l = n + k
-    N, B, A, b, c, v = pivot(N, B, A, b, c, v, l, 0)
-
-    delta = [0 for m in range(len(A[0]))]
-    for j in N:
-        if c[j] > 0:
-            e = first_positive_index(c, N)
-            
-            for i in B:
-                if A[e][i] > 0:
-                    delta[i] = b[i] / A[e][i]
-                else:
-                    delta[i] = "inf"
-            
-            l = minimizing_index(delta, B)
-            if delta[l] == "inf":
-                raise Exception("Задача не ограничена")
-            else:
-                N, B, A, b, c, v = pivot(N, B, A, b, c, v, l, e)
+    N = [i for i in range(cols)]
+    B = [cols + i for i in range(rows)]
+    c = [c[idx] if idx < len(c) else 0 for idx in range(rows + cols)]
+    new_b = [0 if idx < cols else b[idx - cols] for idx in range(rows + cols)]
+    new_A = [[0 for j in range(rows + cols)] for i in range(rows + cols)]
     
-    if delta[0] == 0:
-        N, B, A, b, c, v = to_canon(A, matrix_signs, b, members_signs, c)
-    else:
-        raise Exception("Задача неразрешима")
+    for i in range(rows):
+        for j in range(cols):
+            new_A[i + cols][j] = A[i][j]
 
-    return N, B, A, b, c, v
+    return N, B, new_A, new_b, c, v
 
 
-def pivot(N: list, B: list, A: list, b: list, c: list, v: list, l: int, e: int):
+def pivot(N: list, B: list, A: list, b: list, c: list, v: int, l: int, e: int):
     N_new = list()
     B_new = list()
     A_new = [[0 for i in range(len(A[0]))] for j in range(len(A))]
     b_new = [0 for i in range(len(b))]
     c_new = [0 for i in range(len(c))]
-    v_new = [0 for i in range(len(v))]
 
-    b_new[e] = b[l] / A[e][l]
+    b_new[e] = b[l] / A[l][e]
 
     for j in N:
         if j != e:
-            A_new[j][e] = A[j][l] / A[e][l]
-    A_new[l][e] = 1 / A[e][l]
+            A_new[e][j] = A[l][j] / A[l][e]
+    A_new[e][l] = 1 / A[l][e]
 
     for i in B:
         if i != l:
-            b_new[i] = b[i] - A[e][i] * b_new[e]
+            b_new[i] = b[i] - A[i][e] * b_new[e]
 
             for j in N:
                 if j != e:
-                    A_new[j][i] = A[j][i] - A[e][i] * A_new[j][e]
+                    A_new[i][j] = A[i][j] - A[i][e] * A_new[e][j]
             
-            A_new[l][i] = -A[e][i] / A_new[l][e]
+            A_new[i][l] = -A[i][e] / A_new[e][l]
     
-    for i in range(len(v)):
-        v_new[i] = v[i] + c[e] * b_new[e]
+    v_new = v + c[e] * b_new[e]
 
     for j in N:
         if j != e:
-            c_new[j] = c[j] - c[e] * A_new[j][e]
-    c_new[l] = -c[e] * A_new[l][e]
+            c_new[j] = c[j] - c[e] * A_new[e][j]
+    c_new[l] = -c[e] * A_new[e][l]
 
     for i in N:
         if i != e and i != l:
@@ -118,7 +61,7 @@ def pivot(N: list, B: list, A: list, b: list, c: list, v: list, l: int, e: int):
     return N_new, B_new, A_new, b_new, c_new, v_new
 
 
-def simplex(N: list, B: list, A: list, b: list, c: list, v: list):
+def simplex(N: list, B: list, A: list, b: list, c: list, v: int):
     delta = [0 for m in range(len(A[0]))]
     x = list()
 
@@ -127,8 +70,8 @@ def simplex(N: list, B: list, A: list, b: list, c: list, v: list):
             e = first_positive_index(c, N)
             
             for i in B:
-                if A[e][i] > 0:
-                    delta[i] = b[i] / A[e][i]
+                if A[i][e] > 0:
+                    delta[i] = b[i] / A[i][e]
                 else:
                     delta[i] = "inf"
             
