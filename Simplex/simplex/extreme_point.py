@@ -18,7 +18,7 @@ def get_bases_matrix(matrix: np.ndarray):
 
 def get_bases(matrix: list, free_members: list):
     bases = []
-    if len(matrix) > len(matrix[0]):
+    if len(matrix) >= len(matrix[0]):
         return []
     bases_matrix, indexes = get_bases_matrix(np.array(matrix))
 
