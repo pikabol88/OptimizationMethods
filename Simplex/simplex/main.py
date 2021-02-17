@@ -17,9 +17,11 @@ def main():
     print_task(dual_matrix, dual_line_signs, dual_free_vec, dual_var_signs, dual_target, message)
 
     message = "***Canonical direct task***"
-    to_canon(matrix, line_signs, var_signs, target)
+    N, B, A, b, c, v = to_canon(matrix, line_signs, free_vec, var_signs, target)
     print_task(matrix, line_signs, free_vec, var_signs, target, message)
 
     message = "***Canonical dual task***"
-    to_canon(dual_matrix, dual_line_signs, dual_var_signs, dual_target)
+    dual_N, dual_B, dual_A, dual_b, dual_c, dual_v = to_canon(dual_matrix, dual_line_signs, dual_free_vec,
+                                                              dual_var_signs, dual_target)
     print_task(dual_matrix, dual_line_signs, dual_free_vec, dual_var_signs, dual_target, message)
+
