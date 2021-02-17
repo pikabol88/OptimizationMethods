@@ -26,7 +26,7 @@ def get_bases(matrix: list, free_members: list):
         result = np.linalg.solve(bases_matrix[i], free_members)
         if len(result[result < 0]) != 0:
             continue
-        if len(result[result == 9.349078350541381e+16]) != 0:
+        if len(result[result > 1e+16]) != 0:
             continue
 
         base = []
