@@ -1,5 +1,4 @@
-from simplex.canonical import to_canon
-from simplex.utils import *
+from simplex.utils import minimizing_index
 
 
 def initialize_simplex(A, b, c, v):
@@ -41,7 +40,7 @@ def pivot(N: list, B: list, A: list, b: list, c: list, v: int, l: int, e: int):
                 if j != e:
                     A_new[i][j] = A[i][j] - A[i][e] * A_new[e][j]
             
-            A_new[i][l] = -A[i][e] / A_new[e][l]
+            A_new[i][l] = -A[i][e] * A_new[e][l]
     
     v_new = v + c[e] * b_new[e]
 
@@ -53,34 +52,40 @@ def pivot(N: list, B: list, A: list, b: list, c: list, v: int, l: int, e: int):
     for i in N:
         if i != e and i != l:
             N_new.append(i)
+    N_new.append(l)
 
     for i in B:
         if i != e and i != l:
             B_new.append(i)
+    B_new.append(e)
 
     return N_new, B_new, A_new, b_new, c_new, v_new
 
 
 def simplex(N: list, B: list, A: list, b: list, c: list, v: int):
-    delta = [0 for m in range(len(A[0]))]
     x = list()
 
-    for j in N:
-        if c[j] > 0:
-            e = first_positive_index(c, N)
-            
-            for i in B:
-                if A[i][e] > 0:
-                    delta[i] = b[i] / A[i][e]
-                else:
-                    delta[i] = "inf"
-            
-            l = minimizing_index(delta, B)
-            if delta[l] == "inf":
-                raise Exception("Задача не ограничена")
+    while(True):
+        delta = [0 for m in range(len(A))]
+
+        for j in N:
+            if c[j] > 0:
+                e = j
+        if not e:
+            break
+                
+        for i in B:
+            if A[i][e] > 0:
+                delta[i] = b[i] / A[i][e]
             else:
-                N, B, A, b, c, v = pivot(N, B, A, b, c, v, l, e)
-    
+                delta[i] = "inf"
+        
+        l = minimizing_index(delta)
+        if delta[l] == "inf":
+            raise Exception("Задача не ограничена")
+        else:
+            N, B, A, b, c, v = pivot(N, B, A, b, c, v, l, e)
+        
     for i in range(len(A)):
         if i in B:
             x.append(b[i])

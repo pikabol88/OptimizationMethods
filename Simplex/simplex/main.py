@@ -38,4 +38,7 @@ def main():
     N, B, A, b, c, v = initialize_simplex(matrix, free_vec, target, 0)
     print(simplex(N, B, A, b, c, v))
     print()
+    print("***Solution of dual task by simplex method***")
+    N, B, A, b, c, v = initialize_simplex(dual_matrix, dual_free_vec, dual_target, 0)
+    print(simplex(N, B, A, b, c, v))
     print("============================================================================")

@@ -1,25 +1,19 @@
-def first_positive_index(c: list, N: list):
-    for idx, val in enumerate(c):
-        if val > 0 and idx in N:
-            return idx
-
-
-def find_delta_min(delta: list, B: list):
-    min = delta[B[0]]
-
-    if delta.count("inf") == len(delta):
-        return "inf"
+def minimizing_index(delta: list):
+    for idx, val in enumerate(delta):
+        min = val
+        min_idx = idx
+        if min != "inf":
+            break
 
     if min == "inf":
-        return "inf"
+        return min
 
     for idx, val in enumerate(delta):
-        if val != "inf" and val < min and idx in B:
+        if val == "inf":
+            continue
+        
+        if val < min:
             min = val
-    return min
+            min_idx = idx
 
-
-def minimizing_index(delta: list, B: list):
-    for idx in B:
-        if delta[idx] == find_delta_min(delta, B):
-            return idx
+    return min_idx
