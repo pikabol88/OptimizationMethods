@@ -34,5 +34,5 @@ def main():
     print(brute_force(dual_A, dual_b, dual_c))
     print("============================================================================")
 
-    x = simplex(N, B, A, b, c, v)
-    print(x)
+    #x = simplex(N, B, A, b, c, v)
+    #print(x)

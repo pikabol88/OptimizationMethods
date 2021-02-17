@@ -26,6 +26,8 @@ def get_bases(matrix: list, free_members: list):
         result = np.linalg.solve(bases_matrix[i], free_members)
         if len(result[result < 0]) != 0:
             continue
+        if len(result[result == 9.349078350541381e+16]) != 0:
+            continue
 
         base = []
         for j in range(len(matrix[0])):
@@ -33,7 +35,6 @@ def get_bases(matrix: list, free_members: list):
         for j in range(len(indexes[i])):
             base[indexes[i][j]] = result[j]
         bases.append(base)
-
     return bases
 
 
@@ -48,8 +49,8 @@ def brute_force(matrix: list, free_members: list, target: list):
         return []
 
     result = bases[0]
-    for i in range(len(bases) - 1):
-        if np.dot(result, target) > np.dot(bases[i], target):
+    for i in range(len(bases)):
+        if np.dot(bases[i], target) < np.dot(result, target):
             result = bases[i]
 
     return result
