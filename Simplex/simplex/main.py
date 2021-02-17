@@ -4,6 +4,7 @@ from simplex.canonical import to_canon
 from simplex.dual_task import to_dual_task
 from simplex.print import print_task
 from simplex.parse import parse
+from simplex.simplex import simplex
 
 
 def main():
@@ -25,3 +26,5 @@ def main():
                                                               dual_var_signs, dual_target)
     print_task(dual_matrix, dual_line_signs, dual_free_vec, dual_var_signs, dual_target, message)
 
+    x = simplex(N, B, A, b, c, v)
+    print(x)
