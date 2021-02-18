@@ -3,7 +3,7 @@ import copy
 from simplex.utils import minimizing_index
 
 
-def initialize_simplex(A, b, c, v):
+def initialize_simplex(A, b, c):
     rows = len(A)
     cols = len(A[0])
 
@@ -17,7 +17,7 @@ def initialize_simplex(A, b, c, v):
         for j in range(cols):
             new_A[i + cols][j] = A[i][j]
 
-    return N, B, new_A, new_b, c, v
+    return N, B, new_A, new_b, c, 0
 
 
 def pivot(N: list, B: list, A: list, b: list, c: list, v: int, l: int, e: int):
@@ -68,10 +68,11 @@ def simplex(N: list, B: list, A: list, b: list, c: list, v: int):
     while(True):
         delta = [0 for m in range(len(A))]
 
+        e = -1
         for j in N:
             if c[j] > 0:
                 e = j
-        if not e:
+        if e == -1:
             break
                 
         for i in B:
