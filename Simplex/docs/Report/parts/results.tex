@@ -1,0 +1,152 @@
+\documentclass[../body.tex]{subfiles}
+\begin{document}
+
+ \subsection{Результат нахождения задачи двойственной к заданной}
+	\begin{comment}
+	Меняем знаки у ограничений с $\geq$, путём умножения на -1:
+	\begin{equation}
+			\left\{
+		\begin{array}{ll} 
+			x_1+2x_2+3x_3+4x_4 \ge 1\\
+			2x_1+3x_2+8x_3+x_5=2\\
+			x_1+4x_2+5x_4+x_5=3\\
+			3x_1+7x_2+4x_3+2x_5 = 4\\
+			2x_1+3x_2+5x_3+6x_4+x_5 \le 5\\
+			x_1,x_2,x_3,x_4 \ge 0
+		\end{array}
+		\right.
+		\Longrightarrow
+		\left\{
+		\begin{array}{ll} 
+			-x_1-2x_2-3x_3-4x_4 \le -1\\
+			2x_1+3x_2+8x_3+x_5=2\\
+			x_1+4x_2+5x_4+x_5=3\\
+			3x_1+7x_2+4x_3+2x_5 = 4\\
+			2x_1+3x_2+5x_3+6x_4+x_5 \le 5\\
+			x_1,x_2,x_3,x_4 \ge 0
+		\end{array}
+		\right.
+	\end{equation}\\
+	Для каждого ограничения с неравенством добавляем дополнительные переменные $x_6$ и $x_7$.
+	Перепишем ограничения в каноническом виде:
+	\begin{equation}
+		\left\{
+	\begin{array}{ll} 
+		-x_1-2x_2-3x_3-4x_4\le -1\\
+		2x_1+3x_2+8x_3+x_5=2\\
+		x_1+4x_2+5x_4+x_5=3\\
+		3x_1+7x_2+4x_3+2x_5 = 4\\
+		2x_1+3x_2+5x_3+6x_4+x_5 \le 5\\
+		x_1,x_2,x_3,x_4 \ge 0
+	\end{array}
+	\right.
+		\Longrightarrow
+		\left\{
+			\begin{array}{ll} 
+			-x_1-2x_2-3x_3-4x_4+x_{6} = -1\\
+			2x_1+3x_2+8x_3+x_5=2\\
+			x_1+4x_2+5x_4+x_5=3\\
+			3x_1+7x_2+4x_3+2x_5 = 4\\
+			2x_1+3x_2+5x_3+6x_4+x_5 + x_{7} = 5\\
+			x_1,x_2,x_3,x_4 \ge 0
+		\end{array}
+		\right.
+	\end{equation}\\
+	\end{comment}
+	
+	Найдём двойствунную задачу для прямой задачи (\ref{eq:limitation}):	
+	\begin{equation} \label{eq:dualtask}
+		\left\{
+		\begin{array}{ll} 
+			x_1+2x_2+3x_3+4x_4 \ge 1\\
+			2x_1+3x_2+8x_3+x_5=2\\
+			x_1+4x_2+5x_4+x_5=3\\
+			3x_1+7x_2+4x_3+2x_5 = 4\\
+			2x_1+3x_2+5x_3+6x_4+x_5 \le 5\\
+			x_1,x_2,x_3,x_4 \ge 0
+		\end{array}\\
+		\right.
+		\Longrightarrow
+		\left\{
+		\begin{array}{ll} 
+			x_1+2x_2+1x_3+3x_4+2x_5\le 4\\
+			2x_1+3x_2+4x_3+7x_4+3x_8 \le 3\\
+			3x_1+8x_2+4x_3+5x_5 \le 2\\
+			4x_1+5x_3+6x_5 \le 0\\
+			x_2+x_3+2x_4+x_5 \le 0\\
+			x_1\ge 0, x_5 = 0
+		\end{array}
+		\right.	
+	\end{equation}\\
+	Функция цели: $$F(x)=x_1+2x_2+3x_3+4x_4+5x_5\longrightarrow \max
+	$$
+	 \subsection{Результат приведения задач линейного программирования к каноническому виду}
+	\begin{itemize}
+		\item Приведём задачу (\ref{eq:limitation}) к каноническому виду:\\
+	\begin{equation}
+		\left\{
+		\begin{array}{ll} 
+			x_1+2x_2+3x_3+4x_4 \ge 1\\
+			2x_1+3x_2+8x_3+x_5=2\\
+			x_1+4x_2+5x_4+x_5=3\\
+			3x_1+7x_2+4x_3+2x_5 = 4\\
+			2x_1+3x_2+5x_3+6x_4+x_5 \le 5\\
+			x_1,x_2,x_3,x_4 \ge 0
+		\end{array}
+		\right.
+		\Longrightarrow
+		\left\{
+		\begin{array}{ll} 
+			-x_1-2x_2-3x_3-4x_4 \le -1\\
+			2x_1+3x_2+8x_3+x_5=2\\
+			x_1+4x_2+5x_4+x_5=3\\
+			3x_1+7x_2+4x_3+2x_5 = 4\\
+			2x_1+3x_2+5x_3+6x_4+x_5 \le 5\\
+			x_1,x_2,x_3,x_4 \ge 0
+		\end{array}
+		\right.
+	\end{equation}\\
+	Функция цели:
+	$$F(x) =  x_1 + 3x_2 + 2x_3 \longrightarrow min $$
+	
+\item Приведём двойственную задачу (\ref{eq:dualtask}) к каноническому виду:
+\begin{multline} 	
+	\left\{
+	\begin{array}{ll} 
+		x_1+2x_2+x_3+3x_4+2x_5\le 4\\
+		2x_1+3x_2+4x_3+7x_4+3x_8 \le 3\\
+		3x_1+8x_2+4x_3+5x_5 \le 2\\
+		4x_1+5x_3+6x_5 \le 1\\
+		x_2+x_3+2x_4+x_5 = 0\\
+		x_1\ge 0, x_5 \le 0
+	\end{array}
+	\right. 
+	\Longrightarrow\\
+	\left\{
+	\begin{array}{ll} 
+		x_1+x_2+2x_3-2x_4-3x_5-3x_6+2x_7-2x_8+x_9 = 4\\
+		2x_1+4x_2+3x_3-3x_4-7x_5-7x_6+3x_7-3x_8+x_{10} = 3\\
+		3x_1+5x_3-8x_4-4x_5-4x_6+8x_7-8x_8+x_{11} = 2 \\
+		4x_1+5x_2+6x_3-x+{12}= 1\\
+		x_2+x_3-x_4-2x_5-2x_6+1x_7-x_8= 0\\
+		x_1,x_2,x_3,x_4,x_5,x_6,x_7,x_8 = 0
+	\end{array}
+	\right.
+\end{multline}
+
+Функция цели: $$F(x)=x_1+3x_2+5x_3-2x_4-4x_5-4x_6+2x_7-2x_8-2x_9\longrightarrow \max
+$$	
+ \subsection{Результат решения прямой и двойственной задач линейного программирования}
+\item Решение прямой задачи методом перебора крайних точек: 
+$$x^{*}=(0, 0.10084403, 0.00084034, 0.19327731, 1.63025211, 0, 0, 1.86554621)$$
+\item Решение двойственной задачи методом перебора крайних точек: 
+$$x^{*}=(0,0,0,0,0,0,0,0,4,3,2,0)$$
+\item Решение прямой задачи симплекс - методом:
+$$x^{*}=(0, 0.10084403, 0.00084034, 0.19327731, 1.63025211, 0, 0, 1.86554621)$$
+
+
+\end{itemize}
+	
+
+
+\end{document}
