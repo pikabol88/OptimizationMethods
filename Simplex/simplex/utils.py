@@ -1,14 +1,21 @@
-def minimizing_index(delta: list):
+def minimizing_index(delta: list, B: list):
     for idx, val in enumerate(delta):
+        if idx not in B:
+            continue
+
         min = val
         min_idx = idx
+        
         if min != "inf":
             break
 
     if min == "inf":
-        return min
+        return min_idx
 
     for idx, val in enumerate(delta):
+        if idx not in B:
+            continue
+
         if val == "inf":
             continue
         

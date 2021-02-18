@@ -1,3 +1,5 @@
+import copy
+
 from simplex.utils import minimizing_index
 
 
@@ -19,8 +21,8 @@ def initialize_simplex(A, b, c, v):
 
 
 def pivot(N: list, B: list, A: list, b: list, c: list, v: int, l: int, e: int):
-    N_new = list()
-    B_new = list()
+    N_new = copy.deepcopy(N)
+    B_new = copy.deepcopy(B)
     A_new = [[0 for i in range(len(A[0]))] for j in range(len(A))]
     b_new = [0 for i in range(len(b))]
     c_new = [0 for i in range(len(c))]
@@ -49,14 +51,12 @@ def pivot(N: list, B: list, A: list, b: list, c: list, v: int, l: int, e: int):
             c_new[j] = c[j] - c[e] * A_new[e][j]
     c_new[l] = -c[e] * A_new[e][l]
 
-    for i in N:
-        if i != e and i != l:
-            N_new.append(i)
+    if e in N:
+        N_new.remove(e)
     N_new.append(l)
 
-    for i in B:
-        if i != e and i != l:
-            B_new.append(i)
+    if l in B:
+        B_new.remove(l)
     B_new.append(e)
 
     return N_new, B_new, A_new, b_new, c_new, v_new
@@ -80,7 +80,7 @@ def simplex(N: list, B: list, A: list, b: list, c: list, v: int):
             else:
                 delta[i] = "inf"
         
-        l = minimizing_index(delta)
+        l = minimizing_index(delta, B)
         if delta[l] == "inf":
             raise Exception("Задача не ограничена")
         else:
