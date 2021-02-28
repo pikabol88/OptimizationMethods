@@ -1,10 +1,148 @@
 \documentclass[../body.tex]{subfiles}
 \begin{document}
 	\textbf{Теорема}\\
-	Чтобы вектор $x[N]$ был решением исходной задачи в канонической форме, необходимо и достаточно, чтобы существовал положительный вектор $Y_{*}[M]$, являющийся решением двойственной задачи и удовлетворяющий следующим условиям:
-	$$C^{T}[N]-Y^{T}_{*}[M]A[M,N]\ge 0$$
-	$$(C^{T}[N]-Y^{T}_{*}[M]A[M,N])*X_{*}[N] = 0)$$
+	Чтобы вектор $X_{*}[N]$ был решением исходной задачи в канонической форме, необходимо и достаточно, чтобы существовал положительный вектор $Y_{*}[M]$, являющийся решением двойственной задачи и удовлетворяющий следующим условиям:
+	\begin{equation}\label{eq:first}
+		Y_{*}[M_1]\ge 0
+	\end{equation}
+	\begin{equation}\label{eq:second}
+		C^{T}[N_1]-Y^{T}_{*}[M]A[M,N_1]\ge 0
+	\end{equation}
+	\begin{equation}\label{eq:third}
+		C^{T}[N_2]-Y^{T}_{*}[M]A[M,N_2] = 0
+	\end{equation}
+	\begin{equation}\label{eq:fourth}
+		Y^{T}_{*}[M_1](A[M_1]X_{*}[N]-b[M_1] = 0
+	\end{equation}
+	\begin{equation}\label{eq:fifth}
+		(C^{T}[N_1]-Y^{T}_{*}[M]A[M,N_1])*X_{*}[N_1] = 0)
+	\end{equation}
+
+	Проверим полученные результаты:\\
 	
-	Проверим полученные результаты:
+	Для нашей задачи:\\
+    $$X^T =  \begin{pmatrix} 	0 & \frac{12}{119} & \frac{1}{119} & \frac{23}{119} & 1\frac{75}{119} & 0 & 0 & 1\frac{103}{119} \\  \end{pmatrix}$$
+	\setcounter{MaxMatrixCols}{20}
+	$$Y^T =  \begin{pmatrix}	1\frac{71}{119} & 0 & 0 & \frac{106}{119} & 1\frac{33}{119} & 1\frac{10}{119} & 0 & 0 & 2\frac{25}{119} & 0 & 0 & 0\\ \end{pmatrix}$$
+	\vspace{\baselineskip}
 	
+	В исходных переменных:\\ 
+	$$X^T_{*} =  \begin{pmatrix}	0 & \frac{12}{119} & \frac{1}{119} & \frac{23}{119} & \frac{194}{119} \\ \end{pmatrix}$$
+	\setcounter{MaxMatrixCols}{20}
+	$$Y^T_{*} =  \begin{pmatrix}		\frac{190}{119} & \frac{-106}{119} & \frac{-152}{119} & \frac{129}{119}  & 0\\ \end{pmatrix}$$
+	\vspace{\baselineskip}
+	$$ A[M,N] = 	\begin{pmatrix} 
+		1 & 2 & 3 & 4 & 0 \\
+		2 & 3 & 8 & 0 & 1 \\
+		1 & 4 & 0 & 5 & 1 \\
+		3 & 7 & 4 & 0 & 2 \\
+		-2 & -3 & -5 & -6 & -1 \\
+	\end{pmatrix}, 
+	b[M]=\begin{pmatrix}
+	1\\2\\3\\4\\
+	-\frac{373}{119}
+	\end{pmatrix}, 
+	C^T[N]=
+	\begin{pmatrix}
+	4\\3\\2\\0\\0
+	\end{pmatrix}\\$$ 
+	\vspace{\baselineskip}
+	
+	По условию задачи:\\
+	$$M_1=\left\lbrace 1,5\right\rbrace , M_2=\left\lbrace 2,3,4\right\rbrace $$
+	$$N_1=\left\lbrace 1,2,3,4\right\rbrace , N_2=\left\lbrace 5\right\rbrace $$\\
+	\vspace{\baselineskip}
+	\textbf{Проверим выполнение условий (\ref{eq:first})-(\ref{eq:fifth}):}\\
+	(\ref{eq:first})$
+	\begin{pmatrix}
+	\frac{190}{119} & 0
+	\end{pmatrix}  \ge 0 $ 
+	\checkmark \\
+	\vspace{\baselineskip}
+	
+	(\ref{eq:second})
+	$\begin{pmatrix}
+		4\\ 3\\  2\\  0\\   
+	\end{pmatrix} -
+	\begin{pmatrix}	
+		\frac{190}{119} & \frac{-106}{119} & \frac{-152}{119} & \frac{129}{119}  & 0\\
+	\end{pmatrix} *  
+		\begin{pmatrix} 
+		1 & 2 & 3 & 4  \\
+		2 & 3 & 8 & 0  \\
+		1 & 4 & 0 & 5  \\
+		3 & 7 & 4 & 0  \\
+		-2 & -3 & -5 & -6  \\
+		\end{pmatrix} =\\=
+	\begin{pmatrix}
+		4\\ 3\\  2\\  0\\  
+	\end{pmatrix} -
+	\begin{pmatrix}
+		\frac{213}{119}\\[0.2cm] 3\\[0.2cm]  2\\[0.2cm]  0\\   
+	\end{pmatrix} = 
+	\begin{pmatrix}
+	\frac{263}{119}\\[0.2cm] 0\\[0.2cm]  0\\[0.2cm]  0\\[0.2cm]   
+	\end{pmatrix} \ge 0
+	 $
+	 \checkmark\\
+	\vspace{\baselineskip}
+	
+	(\ref{eq:third}) 
+	$\begin{pmatrix}
+		0  
+	\end{pmatrix} -
+	\begin{pmatrix}	
+		\frac{190}{119} & \frac{-106}{119} & \frac{-152}{119} & \frac{129}{119}  & 0\\
+	\end{pmatrix} *  
+	\begin{pmatrix} 
+	0\\1\\1\\2\\-1\\
+	\end{pmatrix} =(0)-(0)=0  $
+	\checkmark\\
+	\vspace{\baselineskip}
+	
+	(\ref{eq:fourth})
+	$ 
+	\begin{pmatrix}
+		\frac{190}{119} & 0
+	\end{pmatrix} * \left(
+	\begin{pmatrix}
+	1 & 2 & 3 & 4 & 0\\
+	-2 & -3 & -5 & -6 & -1\\ 
+	\end{pmatrix}*
+	\begin{pmatrix}
+		0 \\[0.2cm] \frac{12}{119} \\[0.2cm] \frac{1}{119} \\[0.2cm] \frac{23}{119} \\[0.2cm] \frac{194}{119} \\
+	\end{pmatrix} - 
+	\begin{pmatrix}
+	\frac{-373}{119}
+	\end{pmatrix}
+	 \right)= \\=
+	\begin{pmatrix}
+		\frac{190}{119} &  0
+	\end{pmatrix}*
+	\left(
+	\begin{pmatrix}
+		1\\[0.2cm] \frac{-373}{119} 
+	\end{pmatrix}
+	-
+	\begin{pmatrix}
+			1\\[0.2cm] \frac{-373}{119} 
+	\end{pmatrix}
+	 \right) = 0
+	 $
+	 \checkmark\\
+	\vspace{\baselineskip}
+	
+	(\ref{eq:fifth})
+	$
+	 \begin{pmatrix}
+	\frac{263}{119}\\[0.2cm] 0\\[0.2cm]  0\\[0.2cm]  0\\[0.2cm]   
+	\end{pmatrix} *
+	 \begin{pmatrix}
+	0 \\[0.2cm] \frac{12}{119} \\[0.2cm] \frac{1}{119} \\[0.2cm] \frac{23}{119} \\[0.2cm] \frac{194}{119} \\
+	\end{pmatrix} =0 $
+	 \checkmark\\
+	 \vspace{\baselineskip}
+	 
+	 $\Longrightarrow $
+	 Все условия выполняются и $X_*^T$ оптимальное решение при $\exists Y_*^T$  
 \end{document}

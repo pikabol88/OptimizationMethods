@@ -6,7 +6,7 @@
 \usepackage[english, russian]{babel} %русский язык, не менять
 \usepackage{pdfpages}
 \usepackage{hyperref} %гиперссылки
-\hypersetup{pdfstartview=FitH,  linkcolor=blue, urlcolor=blue, colorlinks=true} %гиперссылки
+\hypersetup{pdfstartview=FitH,  linkcolor=black, urlcolor=blue, colorlinks=true} %гиперссылки
 \usepackage{subfiles}% включение тех-текста
 \usepackage{graphicx} %изображения
 \usepackage{float}%картинки где угодно
@@ -38,8 +38,8 @@
 
 \begin{document}
 	\subfile{titlepage}
-	%\tableofcontents  % думаю, содержание не надо - Валера
-	%\newpage
+	\tableofcontents  
+	\newpage
 	\subfile{body}
 	
 \end{document}
