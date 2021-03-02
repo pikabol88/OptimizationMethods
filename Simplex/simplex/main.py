@@ -35,10 +35,13 @@ def main():
     print("============================================================================")
 
     print("***Solution of direct task by simplex method***")
-    N, B, A, b, c, v = initialize_simplex(matrix, free_vec, target, 0)
+    N, B, A, b, c, v = initialize_simplex(matrix, free_vec, target)
     print(simplex(N, B, A, b, c, v))
+
+    """
     print()
     print("***Solution of dual task by simplex method***")
-    N, B, A, b, c, v = initialize_simplex(dual_matrix, dual_free_vec, dual_target, 0)
+    N, B, A, b, c, v = initialize_simplex(dual_matrix, dual_free_vec, dual_target)
     print(simplex(N, B, A, b, c, v))
     print("============================================================================")
+    """
