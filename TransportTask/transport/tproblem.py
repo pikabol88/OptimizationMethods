@@ -45,23 +45,16 @@ class TransportProblem:
 
 
     def print_table(self):
-        res_i = []
-        rows = []
+        rows = list()
         headers = [""]
-        num = 0
-        for item in self._demand:
-            string = "consumer " + str(num) + " need " + str(item)
-            headers.append(string)
-            num += 1
-        num = 0
-        for item in self._supply:
-            string = "supplier " + str(num) + " supply " + str(item)
-            res_i.append(string)
-            for j in range(len(self._demand)):
-                res_i.append(self._matrix[num][j])
-            num += 1
-            rows.append(res_i.copy())
-            res_i.clear()
+        for col, item in enumerate(self._demand):
+            headers.append(f"consumer {col + 1} needs {item}")
+        for row_num, item in enumerate(self._supply):
+            cur_row = list()
+            cur_row.append(f"supplier {row_num + 1} supplies {item}")
+            for col_num in range(len(self._demand)):
+                cur_row.append(self._matrix[row_num][col_num])
+            rows.append(cur_row)
         # tablefmt="latex"
         print(tabulate.tabulate(rows, headers))
 
