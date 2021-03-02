@@ -60,11 +60,6 @@ class TransportProblem:
 
 
 class Shipment:
-    cosPerUnit = 0
-    r = 0
-    c = 0
-    quantity = 0
-
     def __init__(self, cpu, q, r, c):
         self.quantity = q
         self.cosPerUnit = cpu
