@@ -15,6 +15,9 @@ class TransportProblem:
         demand = problem.pop(0).split(' ')
         self._supply = [int(item) for item in supply]
         self._demand = [int(item) for item in demand]
+        while len(problem) > 0:
+            matrix = problem.pop(0).split(' ')
+            self._matrix.append(matrix)
         print("Проверим задачу на замкнутость:")
         sum_sup = sum(self._supply)
         sum_dem = sum(self._demand)
@@ -34,8 +37,7 @@ class TransportProblem:
             self._matrix.append(tmp)
         else:
             print("Задача замкнутого вида")
-        while len(problem) > 0:
-            self._matrix.append(problem.pop(0).split(' '))
+
 
     def print_table(self):
         res_i = []
