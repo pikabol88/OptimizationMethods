@@ -1,3 +1,3 @@
-from main import main
+from transport.main import main
 
 main()
