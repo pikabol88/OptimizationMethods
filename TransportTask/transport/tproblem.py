@@ -190,9 +190,3 @@ class TransportProblem:
                 else:
                     print(("  -  "))
         print(f"Итоговые минимальные затраты = {totalCosts}")
-
-
-    def solve_brute(self) -> List[List[int]]:
-        min = list()
-        
-        return min
