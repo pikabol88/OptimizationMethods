@@ -2,6 +2,7 @@ import sys
 import tabulate
 
 from itertools import chain
+from typing import List
 
 
 class TransportProblem:
@@ -230,3 +231,11 @@ class TransportProblem:
         target.append("min")
 
         return matrix, free_vector, target
+
+
+    def cost_summary(self, solution: List[List[int]]):
+        sum = 0
+        for row in range(len(solution)):
+            for col in range(len(solution[row])):
+                sum += solution[row][col] * self._costs[row][col]
+        return sum
