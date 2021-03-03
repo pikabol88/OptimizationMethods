@@ -1,3 +1,5 @@
+import numpy as np
+
 from transport.tproblem import TransportProblem
 from transport.extreme_point import brute_force
 
@@ -8,5 +10,6 @@ def main():
     tp.print_table()
 
     matrix, free_vec, target = tp.to_canonical()
+    brute_solution = brute_force(matrix, free_vec, target)
     print("\nBrute force solution:")
-    print(brute_force(matrix, free_vec, target))
+    print(np.reshape(brute_solution, (4, 5)))
