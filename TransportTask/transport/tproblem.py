@@ -1,7 +1,8 @@
 import sys
-
 import tabulate
+
 from typing import List
+from itertools import chain
 
 
 class TransportProblem:
@@ -190,3 +191,19 @@ class TransportProblem:
                 else:
                     print(("  -  "))
         print(f"Итоговые минимальные затраты = {totalCosts}")
+
+
+    def to_canonical(self):
+        matrix = [[0 for col in range(len(self._supply) * len(self._demand))] for row in range(len(self._supply) + len(self._demand) - 1)]
+        for row in range(len(self._supply) + len(self._demand) - 1):
+            for col in range(len(self._supply) * len(self._demand)):
+                if (row < len(self._demand) - 1 and col in range(row * 5, (row + 1) * 5)) or (row >= (len(self._demand) - 1) and col % 5  == row - len(self._demand) + 1):
+                    matrix[row][col] = 1
+        
+        free_vector = self._supply + self._demand
+        free_vector.pop()
+
+        target = list(chain.from_iterable(self._costs))
+        target.append("min")
+
+        return matrix, free_vector, target
