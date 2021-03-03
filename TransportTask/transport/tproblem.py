@@ -1,6 +1,7 @@
 import sys
 
 import tabulate
+from typing import List
 
 
 class TransportProblem:
@@ -45,17 +46,14 @@ class TransportProblem:
         else:
             print("Задача замкнутого вида")
 
-    class Shipment:
-        costPerUnit = 0.0
-        quantity = 0.0
-        r = 0
-        c = 0
 
+    class Shipment:
         def __init__(self, quantity, costPerUnit, r, c):
             self.quantity = quantity
             self.costPerUnit = costPerUnit
             self.r = r
             self.c = c
+
 
     def print_table(self):
         rows = list()
@@ -71,6 +69,7 @@ class TransportProblem:
         # tablefmt="latex"
         print(tabulate.tabulate(rows, headers))
 
+
     def northWestCornerRule(self):
         northwest = 0
         for r in range(0, len(self._supply)):
@@ -83,6 +82,7 @@ class TransportProblem:
                     if self._supply[r] == 0:
                         northwest = c
                         break
+
 
     def steppingStone(self):
         maxReduction = 0
@@ -127,7 +127,6 @@ class TransportProblem:
             self.steppingStone()
 
 
-
     def matrixToList(self):
         result = list()
         for row in self._matrix:
@@ -135,6 +134,7 @@ class TransportProblem:
                 if shipment is not None:
                     result.append(shipment)
         return result
+
 
     def getNeighbors(self, s: Shipment, s_list: Shipment):
         nbrs = self.Shipment[2]
@@ -147,6 +147,7 @@ class TransportProblem:
                 if nbrs[0] is not None and nbrs[1] is not None:
                     break
         return nbrs
+
 
     def getClosedPath(self, s: Shipment):
         path = self.matrixToList()
@@ -163,6 +164,7 @@ class TransportProblem:
             stones[i] = prev
             prev = self.getNeighbors(prev,path)[i%2]
         return stones
+
 
     def fixDegenerateCase(self):
         eps = sys.float_info.min * sys.float_info.epsilon
@@ -190,3 +192,7 @@ class TransportProblem:
         print(f"Итоговые минимальные затраты = {totalCosts}")
 
 
+    def solve_brute(self) -> List[List[int]]:
+        min = list()
+        
+        return min
