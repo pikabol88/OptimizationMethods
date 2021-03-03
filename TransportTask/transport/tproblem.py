@@ -3,12 +3,14 @@ import tabulate
 
 from itertools import chain
 
+
 class TransportProblem:
     def __init__(self, filename):
         self._demand = list()
         self._supply = list()
         self._costs = list()
         self._matrix = list()
+        self._penalties = False
 
         with open(filename, 'r') as f:
             problem = f.read().splitlines()
@@ -21,8 +23,16 @@ class TransportProblem:
 
         while len(problem) > 0:
             costs = problem.pop(0).split(' ')
-            self._costs.append([int(item) for item in costs])
-        self._matrix = [[self.Shipment(0,0,0,0) for j in range(len( self._demand ))] for i in range(len( self._demand ))]
+            if costs[0] == "penalty":
+                self._penalties = True
+                penalties = list()
+                while len(problem) > 0:
+                    costs = problem.pop(0).split(' ')
+                    penalties.append([int(item) for item in costs])
+                break
+            else:
+                self._costs.append([int(item) for item in costs])
+        self._matrix = [[self.Shipment(0, 0, 0, 0) for j in range(len(self._demand))] for i in range(len(self._demand))]
         print("Проверим задачу на замкнутость:")
 
         sum_sup = sum(self._supply)
@@ -30,17 +40,29 @@ class TransportProblem:
         print("Сумма запасов:" + str(sum_sup))
         print("Сумма спросов:" + str(sum_dem))
 
+        if self._penalties:
+            for i in range(len(penalties[0])):
+                if abs(sum_sup - sum_dem) >= penalties[0][i]:
+                    sum_peny = penalties[1][i]
+
         if sum_sup > sum_dem:
             print("Приведем задачу к замкнутому виду, добавив фиктовного поставщика")
             self._demand.append(sum_sup - sum_dem)
             for line in self._costs:
-                line.append(0)
+                if self._penalties:
+                    line.append(sum_peny)
+                else:
+                    line.append(0)
+
 
         elif sum_sup < sum_dem:
             print("Приведем задачу к замкнутому виду, добавив фиктовного заказчика")
             self._supply.append(sum_dem - sum_sup)
-            self._costs.append([0] * len(self._costs[0]))
-            pass
+            if self._penalties:
+                self._costs.append([sum_peny] * len(self._costs[0]))
+            else:
+                self._costs.append([0] * len(self._costs[0]))
+
 
         else:
             print("Задача замкнутого вида")
@@ -86,7 +108,7 @@ class TransportProblem:
 
     def steppingStone(self):
         maxReduction = 0
-        move =  list()
+        move = list()
         leaving = list()
 
         self.fixDegenerateCase()
@@ -126,8 +148,6 @@ class TransportProblem:
                 plus = not plus
             self.steppingStone()
 
-
-
     def matrixToList(self):
         result = list()
         for row in self._matrix:
@@ -138,7 +158,7 @@ class TransportProblem:
 
     def getNeighbors(self, s: Shipment, s_list):
         print(s_list)
-        nbrs = {'0':None, '1':None}
+        nbrs = {'0': None, '1': None}
         for el in s_list:
             if el != s:
                 if el.r == s.r and nbrs['0'] is None:
@@ -153,7 +173,7 @@ class TransportProblem:
         path = self.matrixToList()
         path.insert(0, s)
         removed = list()
-        for el in path :
+        for el in path:
             nbrs = self.getNeighbors(el, path)
             if nbrs['0'] is None or nbrs['1'] is None:
                 removed.append(el)
@@ -162,8 +182,8 @@ class TransportProblem:
         stones = list()
         for i in range(len(path)):
             stones.append(prev)
-            tmp = self.getNeighbors(prev,path)
-            index = i%2
+            tmp = self.getNeighbors(prev, path)
+            index = i % 2
             if index == 1:
                 prev = tmp['1']
             else:
@@ -172,15 +192,14 @@ class TransportProblem:
 
     def fixDegenerateCase(self):
         eps = sys.float_info.min * sys.float_info.epsilon
-        if len(self._supply)+len(self._demand) - 1 != len(self.matrixToList()):
+        if len(self._supply) + len(self._demand) - 1 != len(self.matrixToList()):
             for r in range(len(self._supply)):
                 for c in range(len(self._demand)):
                     if self._matrix[r][c] is None:
-                        dummy = self.Shipment(eps, self._costs[r][c],c)
-                        if len(self.getClosedPath(dummy)) is None :
+                        dummy = self.Shipment(eps, self._costs[r][c], c)
+                        if len(self.getClosedPath(dummy)) is None:
                             self._matrix[r][c] = dummy
                             return
-
 
     def print_result(self):
         print("Оптимальное решение")
@@ -190,23 +209,24 @@ class TransportProblem:
                 s = self._matrix[r][c]
                 if s is not None and s.r == r and s.c == c:
                     print(s.quantity)
-                    totalCosts+=(s.quantity*s.costPerUnit)
+                    totalCosts += (s.quantity * s.costPerUnit)
                 else:
                     print(("  -  "))
         print(f"Итоговые минимальные затраты = {totalCosts}")
 
-
     def to_canonical(self):
-            matrix = [[0 for col in range(len(self._supply) * len(self._demand))] for row in range(len(self._supply) + len(self._demand) - 1)]
-            for row in range(len(self._supply) + len(self._demand) - 1):
-                for col in range(len(self._supply) * len(self._demand)):
-                    if (row < len(self._demand) - 1 and col in range(row * 5, (row + 1) * 5)) or (row >= (len(self._demand) - 1) and col % 5  == row - len(self._demand) + 1):
-                        matrix[row][col] = 1
-            
-            free_vector = self._supply + self._demand
-            free_vector.pop()
+        matrix = [[0 for col in range(len(self._supply) * len(self._demand))] for row in
+                  range(len(self._supply) + len(self._demand) - 1)]
+        for row in range(len(self._supply) + len(self._demand) - 1):
+            for col in range(len(self._supply) * len(self._demand)):
+                if (row < len(self._demand) - 1 and col in range(row * 5, (row + 1) * 5)) or (
+                        row >= (len(self._demand) - 1) and col % 5 == row - len(self._demand) + 1):
+                    matrix[row][col] = 1
 
-            target = list(chain.from_iterable(self._costs))
-            target.append("min")
+        free_vector = self._supply + self._demand
+        free_vector.pop()
 
-            return matrix, free_vector, target
+        target = list(chain.from_iterable(self._costs))
+        target.append("min")
+
+        return matrix, free_vector, target
