@@ -22,7 +22,7 @@ class TransportProblem:
         while len(problem) > 0:
             costs = problem.pop(0).split(' ')
             self._costs.append([int(item) for item in costs])
-        self._matrix = [[self.Shipment(0, 0, 0, 0) for j in range(len(self._demand))] for i in range(len(self._demand))]
+        self.matrix = [[self.Shipment(0,0,0,0) for j in range(len( self._demand ))] for i in range(len( self._demand ))]
         print("Проверим задачу на замкнутость:")
 
         sum_sup = sum(self._supply)
@@ -87,6 +87,7 @@ class TransportProblem:
     def steppingStone(self):
         maxReduction = 0
         move = []
+        leaving = self.Shipment()
 
         self.fixDegenerateCase()
         for r in range(0, len(self._supply)):
@@ -98,7 +99,7 @@ class TransportProblem:
                 path = self.getClosedPath(trail)
 
                 reduction = 0
-                lowestQuantity = sys.maxsize
+                lowestQuantity = sys._maxint
                 leavingCandidate = None
 
                 plus = True
@@ -125,7 +126,9 @@ class TransportProblem:
                 plus = not plus
             self.steppingStone()
 
-    def matrixToList(self):
+
+
+    def matrixToList(self):z
         result = list()
         for row in self._matrix:
             for shipment in row:
@@ -133,16 +136,15 @@ class TransportProblem:
                     result.append(shipment)
         return result
 
-    def getNeighbors(self, s: Shipment, s_list: Shipment=[]):
-        nbrs = {'0': None, '1': None}
-
+    def getNeighbors(self, s: Shipment, s_list: Shipment):
+        nbrs = self.Shipment[2]
         for el in s_list:
             if el != s:
-                if el.r  == s.r and nbrs['0'] is None:
-                    nbrs['0'] = el
-                elif el.r == s.r and nbrs['1'] is None:
-                    nbrs['1'] = el
-                if nbrs['0'] is not None and nbrs['1'] is not None:
+                if self.Shipment(el).r == s.r and nbrs[0] is None:
+                    nbrs[0] = el
+                elif self.Shipment(el).r == s.r and nbrs[1] is None:
+                    nbrs[1] = el
+                if nbrs[0] is not None and nbrs[1] is not None:
                     break
         return nbrs
 
@@ -150,32 +152,29 @@ class TransportProblem:
         path = self.matrixToList()
         path.insert(0, s)
         removed = list()
-        for el in path:
+        for el in path :
             nbrs = self.getNeighbors(el, path)
-            if nbrs['0'] is None or nbrs['1'] is None:
+            if nbrs[0] is None or nbrs[1] is None:
                 removed.append(el)
                 path.remove(el)
-        stones = list()
+        stones = self.Shipment[len(path)]
         prev = s
-        for i in range(len(path)):
-            stones.append(prev)
-            result = self.getNeighbors(prev, path)
-            if i % 2 == 1:
-                prev = result['1']
-            else:
-                prev = result['0']
+        for i in range(len(stones)):
+            stones[i] = prev
+            prev = self.getNeighbors(prev,path)[i%2]
         return stones
 
     def fixDegenerateCase(self):
         eps = sys.float_info.min * sys.float_info.epsilon
-        if len(self._supply) + len(self._demand) - 1 != len(self.matrixToList()):
+        if len(self._supply)+len(self._demand) - 1 != len(self.matrixToList()):
             for r in range(len(self._supply)):
                 for c in range(len(self._demand)):
                     if self._matrix[r][c] is None:
-                        dummy = self.Shipment(eps, self._costs[r][c], c)
-                        if len(self.getClosedPath(dummy)) is None:
+                        dummy = self.Shipment(eps, self._costs[r][c],c)
+                        if len(self.getClosedPath(dummy)) is None :
                             self._matrix[r][c] = dummy
                             return
+
 
     def print_result(self):
         print("Оптимальное решение")
@@ -185,7 +184,9 @@ class TransportProblem:
                 s = self._matrix[r][c]
                 if s is not None and s.r == r and s.c == c:
                     print(s.quantity)
-                    totalCosts += (s.quantity * s.costPerUnit)
+                    totalCosts+=(s.quantity*s.costPerUnit)
                 else:
                     print(("  -  "))
         print(f"Итоговые минимальные затраты = {totalCosts}")
+
+
