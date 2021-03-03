@@ -22,7 +22,7 @@ class TransportProblem:
         while len(problem) > 0:
             costs = problem.pop(0).split(' ')
             self._costs.append([int(item) for item in costs])
-        self.matrix = [[self.Shipment(0,0,0,0) for j in range(len( self._demand ))] for i in range(len( self._demand ))]
+        self._matrix = [[self.Shipment(0,0,0,0) for j in range(len( self._demand ))] for i in range(len( self._demand ))]
         print("Проверим задачу на замкнутость:")
 
         sum_sup = sum(self._supply)
@@ -86,8 +86,8 @@ class TransportProblem:
 
     def steppingStone(self):
         maxReduction = 0
-        move = []
-        leaving = self.Shipment()
+        move =  list()
+        leaving = list()
 
         self.fixDegenerateCase()
         for r in range(0, len(self._supply)):
@@ -99,7 +99,7 @@ class TransportProblem:
                 path = self.getClosedPath(trail)
 
                 reduction = 0
-                lowestQuantity = sys._maxint
+                lowestQuantity = sys.maxsize
                 leavingCandidate = None
 
                 plus = True
@@ -128,7 +128,7 @@ class TransportProblem:
 
 
 
-    def matrixToList(self):z
+    def matrixToList(self):
         result = list()
         for row in self._matrix:
             for shipment in row:
@@ -136,15 +136,16 @@ class TransportProblem:
                     result.append(shipment)
         return result
 
-    def getNeighbors(self, s: Shipment, s_list: Shipment):
-        nbrs = self.Shipment[2]
+    def getNeighbors(self, s: Shipment, s_list):
+        print(s_list)
+        nbrs = {'0':None, '1':None}
         for el in s_list:
             if el != s:
-                if self.Shipment(el).r == s.r and nbrs[0] is None:
-                    nbrs[0] = el
-                elif self.Shipment(el).r == s.r and nbrs[1] is None:
-                    nbrs[1] = el
-                if nbrs[0] is not None and nbrs[1] is not None:
+                if el.r == s.r and nbrs['0'] is None:
+                    nbrs['0'] = el
+                elif el.r == s.r and nbrs['1'] is None:
+                    nbrs['1'] = el
+                if nbrs['0'] is not None and nbrs['1'] is not None:
                     break
         return nbrs
 
@@ -154,14 +155,19 @@ class TransportProblem:
         removed = list()
         for el in path :
             nbrs = self.getNeighbors(el, path)
-            if nbrs[0] is None or nbrs[1] is None:
+            if nbrs['0'] is None or nbrs['1'] is None:
                 removed.append(el)
                 path.remove(el)
-        stones = self.Shipment[len(path)]
         prev = s
-        for i in range(len(stones)):
-            stones[i] = prev
-            prev = self.getNeighbors(prev,path)[i%2]
+        stones = list()
+        for i in range(len(path)):
+            stones.append(prev)
+            tmp = self.getNeighbors(prev,path)
+            index = i%2
+            if index == 1:
+                prev = tmp['1']
+            else:
+                prev = tmp['0']
         return stones
 
     def fixDegenerateCase(self):
