@@ -1,3 +1,3 @@
-from onedim.main import main
+from main import main
 
 main()

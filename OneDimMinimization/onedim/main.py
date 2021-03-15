@@ -1,2 +1,6 @@
+from function import Function
+
 def main():
-    return
+    my_fun = Function()
+    my_fun.plot_func()
+    return 
