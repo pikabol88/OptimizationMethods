@@ -1,4 +1,4 @@
-from function import Function
+from onedim.function import Function
 
 def main():
     my_fun = Function()
