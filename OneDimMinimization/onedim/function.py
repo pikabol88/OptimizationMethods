@@ -7,10 +7,12 @@ class Function:
     def __init__(self) -> None:
         self.func_str = "x^6 + 3*x^2 + 6*x - 1"
         self.x_min = -1
-        self.x_max = 1
+        self.x_max = 0
         self.eps = 0.1
+        self.count = 0
 
     def func(self, x: float) -> float:
+        self.count += 1
         return pow(x, 6) + 3 * pow(x, 2) + 6 * x - 1
 
     def plot_func(self):
