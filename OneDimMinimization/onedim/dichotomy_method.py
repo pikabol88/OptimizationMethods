@@ -7,13 +7,15 @@ def dichotomy_method(fun: Function) -> float:
     a = fun.x_min
     b = fun.x_max
     iter_num = 1
-    while b - a > eps:
-        tmp1 = (a + b) / 2 - alpha
-        tmp2 = (a + b) / 2 + alpha
-        if fun.func(tmp1) > fun.func(tmp2):
-            a = tmp1
+    if fun.func(a) * fun.func(b) > 0:
+        print("No root found")
+        
+    while abs(b - a) > eps:
+        tmp = (a + b) / 2
+        if fun.func(tmp - alpha) < fun.func(alpha):
+            b = tmp
         else:
-            b = tmp2
+            a = tmp
         iter_num += 1
     print("iter = " + str(iter_num))
-    return (a + b) / 2
+    return (a + b) / 2, fun.func((a+b)/2)

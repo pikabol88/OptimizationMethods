@@ -5,9 +5,9 @@ import numpy as np
 
 class Function:
     def __init__(self) -> None:
-        self.func_str = "x^6 + 3x^2 + 6x - 1"
+        self.func_str = "x^6 + 3*x^2 + 6*x - 1"
         self.x_min = -1
-        self.x_max = 0
+        self.x_max = 1
         self.eps = 0.1
 
     def func(self, x: float) -> float:
