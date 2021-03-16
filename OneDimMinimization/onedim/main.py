@@ -1,5 +1,6 @@
 from onedim.function import Function
 from onedim.dichotomy_method import dichotomy_method
+from onedim.parabolic import parabolic
 
 
 def main():
@@ -9,3 +10,9 @@ def main():
     print("x = ", x)
     print("f(x) = ", f_x)
     print("iterations =", iterations)
+
+
+    print(parabolic(my_fun, 1))
+
+    return 
+
