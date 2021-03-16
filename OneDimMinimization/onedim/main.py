@@ -12,7 +12,7 @@ def main():
     print("iterations =", iterations)
 
 
-    print(parabolic(my_fun, 1))
+    print(parabolic(my_fun, 0))
 
     return 
 
