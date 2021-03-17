@@ -9,7 +9,7 @@ def dichotomy_method(fun: Function, eps: float) -> Tuple[float, float, int]:
     a = fun.x_min
     b = fun.x_max
     iter_num = 0
-    while abs(b - a) > eps/10:
+    while abs(b - a) > eps:
         tmp = (a + b) / 2
         if fun.func(tmp - alpha) < fun.func(tmp + alpha):
             b = tmp
