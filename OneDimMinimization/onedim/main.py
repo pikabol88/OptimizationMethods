@@ -26,7 +26,9 @@ def main():
         x_p, f_p = parabolic(my_fun, eps)
         print("x = ", x_p)
         print("f(x) = ", f_p)
-        
+        print("\t practical = " + str(my_fun.count - 1))
+        my_fun.count = 0
+
         print("\n")
 
     # print(payel_method(my_fun, 0.001))
