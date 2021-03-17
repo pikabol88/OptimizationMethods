@@ -1,9 +1,10 @@
 from onedim.function import Function
 import math
+from typing import Tuple
 
 
 # Return min point and the value of the function in this point
-def dichotomy_method(fun: Function, eps: float) -> (float, float, int):
+def dichotomy_method(fun: Function, eps: float) -> Tuple[float, float, int]:
     alpha = fun.eps
     a = fun.x_min
     b = fun.x_max
