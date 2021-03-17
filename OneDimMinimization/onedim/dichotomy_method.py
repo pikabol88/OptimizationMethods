@@ -8,11 +8,9 @@ def dichotomy_method(fun: Function, eps: float) -> (float, float, int):
     a = fun.x_min
     b = fun.x_max
     iter_num = 0
-    if fun.func(a) * fun.func(b) > 0:
-        print("No root found")
-    while abs(b - a) > eps:
+    while abs(b - a) > eps/10:
         tmp = (a + b) / 2
-        if fun.func(tmp - alpha) < fun.func(alpha):
+        if fun.func(tmp - alpha) < fun.func(tmp + alpha):
             b = tmp
         else:
             a = tmp
@@ -21,4 +19,4 @@ def dichotomy_method(fun: Function, eps: float) -> (float, float, int):
 
 
 def theoretical_assessment(fun: Function, eps: float) -> int:
-    return round(abs((math.log2((fun.x_max - fun.x_min) / 2 * eps) + 1)))
+    return round(abs((math.log2((fun.x_max - fun.x_min) / 2 * eps) + 1))) * 2

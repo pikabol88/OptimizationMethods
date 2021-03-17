@@ -3,6 +3,7 @@ import pylab
 from matplotlib import mlab
 import numpy as np
 
+
 class Function:
     def __init__(self) -> None:
         self.func_str = "x^6 + 3*x^2 + 6*x - 1"
