@@ -5,9 +5,9 @@ from typing import Tuple
 
 # Return min point and the value of the function in this point
 def dichotomy_method(fun: Function, eps: float) -> Tuple[float, float, int]:
-    alpha = fun.eps
     a = fun.x_min
     b = fun.x_max
+    alpha = (b-a)/100
     iter_num = 0
     while abs(b - a) > eps:
         tmp = (a + b) / 2
