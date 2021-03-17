@@ -20,4 +20,4 @@ def dichotomy_method(fun: Function, eps: float) -> Tuple[float, float, int]:
 
 
 def theoretical_assessment(fun: Function, eps: float) -> int:
-    return round(abs((math.log2((fun.x_max - fun.x_min) / 2 * eps) + 1))) * 2
+    return math.ceil(abs((math.log2((fun.x_max - fun.x_min) / 2 * eps) + 1))) * 2
