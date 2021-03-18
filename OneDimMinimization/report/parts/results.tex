@@ -1,0 +1,28 @@
+\documentclass[../body.tex]{subfiles}
+\begin{document}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        $\varepsilon$ & $x_{result}$ & $f(x_{result})$ & число обращений\\\hline
+        0.1 & -0.78125 & -3.62907 & 8\\\hline
+        0.01 & -0.75391 & -3.6347 & 14\\\hline
+        0.001 & -0.75439 & -3.63471 & 20\\\hline
+    \end{tabular}
+    \caption{Результат решения методом дихотомии}
+    \label{tab:dichotomy}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        $\varepsilon$ & $x_{result}$ & $f(x_{result})$ & число обращений\\\hline
+        0.1 & -0.72027 & -3.62562 & 4\\\hline
+        0.01 & -0.74924 & -3.63446 & 6\\\hline
+        0.001 & -0.75449 & -3.63471 & 9\\\hline
+    \end{tabular}
+    \caption{Результат решения методом парабол}
+    \label{tab:polynomial}
+\end{table}
+\end{document}
