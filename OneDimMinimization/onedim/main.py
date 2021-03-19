@@ -31,4 +31,5 @@ def main():
 
         print("\n")
 
+    my_fun.plot_func()
     # print(payel_method(my_fun, 0.001))

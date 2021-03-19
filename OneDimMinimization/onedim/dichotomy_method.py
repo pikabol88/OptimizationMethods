@@ -16,6 +16,7 @@ def dichotomy_method(fun: Function, eps: float) -> Tuple[float, float, int]:
         else:
             a = tmp
         iter_num += 1
+    fun.min = (a + b) / 2
     return (a + b) / 2, fun.func((a + b) / 2), iter_num
 
 
