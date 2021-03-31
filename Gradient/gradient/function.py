@@ -6,6 +6,8 @@ import math
 
 
 class Function:
+    iter = 0
+
     def __init__(self) -> None:
         self.func_str = "$4x_1+x_2+4\sqrt{1+3x_1^2+x_2^2}$"
 
@@ -48,19 +50,17 @@ class Function:
         eps = 0.1
         F1 = self._F1(x1, x2)
         F2 = self._F2(x1, x2)
-        iter = 1
+        self.iter = 0
         while np.sqrt(pow(F2, 2) + pow(F1, 2)) > eps:
-            print("\niteration # ", iter)
-            iter += 1
+            #print("\niteration # ", iter)
+            self.iter += 1
             F11, F12, F21, F22 = self._hesse_coef(x1, x2)
-            print("Hesse matrix", "\n", F11, F12, "\n", F21, F22)
+            #print("Hesse matrix", "\n", F11, F12, "\n", F21, F22)
             detH = self._det(F11, F12, F21, F22)
-            print("Det = ", detH)
             F1 = self._F1(x1, x2)
             F2 = self._F2(x1, x2)
             x1 = x1 - 1 / detH * (F22 * F1 - F21 * F2)
             x2 = x2 - 1 / detH * (F11 * F2 - F12 * F1)
-            print("\nx1 = ", x1, "\nx2 = ", x2, "\nf(x1,x2) =", self.f(x1, x2))
             res.append(np.array([x1, x2]))
 
         return res
