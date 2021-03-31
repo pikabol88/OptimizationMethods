@@ -38,7 +38,7 @@ def fib_min(nums, x_k, grad_k):
             lam = mu
             mu = a + nums[-1 - i - 1] / nums[-1 - i] * (b - a)
             if i == len(nums) - 3:
-                break;
+                break
             f_lam = f_mu
             f_mu = f(x_k - mu * grad_k)
         else:
@@ -46,7 +46,7 @@ def fib_min(nums, x_k, grad_k):
             mu = lam
             lam = a + nums[-1 - i - 2] / nums[-1 - i] * (b - a)
             if i == len(nums) - 3:
-                break;
+                break
             f_mu = f_lam
             f_lam = f(x_k - lam * grad_k)
     if f_lam >= f_mu:

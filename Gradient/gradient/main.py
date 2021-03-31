@@ -7,18 +7,21 @@ def main():
     my_fun = Function()
     # my_fun.plot_lines()
     # my_fun.plot()
-    print("Newton:")
-    res = my_fun.newton()
-    my_fun.set_points(res)
-    print('\tsolution: ' + str(res[-1]))
-    print('\titers: ' + str(my_fun.iter))
-    my_fun.plot_lines()
+    for eps in [1e-1, 1e-2, 1e-3, 1e-4]:
+        print(f"epsilon = {eps}")
 
-    print("DFP:")
-    solver = DFP()
-    solution = solver.get_solution((0, 0), 0.01)
-    print('\tsolution: ' + str(solution))
-    print('\titers: ' + str(solver.get_iter_num()))
+        print("Newton:")
+        res = my_fun.newton(eps=eps)
+        my_fun.set_points(res)
+        print('\tsolution: ' + str(res[-1]))
+        print('\titers: ' + str(my_fun.iter))
+        my_fun.plot_lines()
+
+        print("DFP:")
+        solver = DFP()
+        solution = solver.get_solution((0, 0), eps)
+        print('\tsolution: ' + str(solution))
+        print('\titers: ' + str(solver.get_iter_num()))
 
     solver.draw_contoures()
 
@@ -26,9 +29,9 @@ def main():
     plot.xlabel("x")
     plot.title("Линии уровня функции" + my_fun.func_str)
     plot.show()
-  
-    left, right = 0, 1
-    eps = 0.01
-    fib = Fibonacci()
-    print(fib.method(left, right))
+
+    # left, right = 0, 1
+    # eps = 0.01
+    # fib = Fibonacci()
+    # print(fib.method(left, right))
     return

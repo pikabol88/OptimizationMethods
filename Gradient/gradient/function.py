@@ -50,11 +50,11 @@ class Function:
 
         plt.show()
 
-    def newton(self, x_start: np.array = np.array([0, 0])) -> List[np.array]:
+    def newton(self, x_start: np.array = np.array([0, 0]), eps = 0.1) -> List[np.array]:
         x1 = x_start[0]
         x2 = x_start[1]
         res = [x_start]
-        eps = 0.1
+
         F1 = self._F1(x1, x2)
         F2 = self._F2(x1, x2)
         self.iter = 0
