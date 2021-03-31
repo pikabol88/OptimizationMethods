@@ -23,6 +23,14 @@ def main():
         print('\tsolution: ' + str(solution))
         print('\titers: ' + str(solver.get_iter_num()))
 
+        print("Fibonacci:")
+        left, right = 0, 0
+        fib = Fibonacci()
+        res = fib.method(my_fun, left, right, eps)
+        print(f'\tsolution: {res}')
+        #print(f'\titers: {my_fun.iter}')
+        my_fun.plot_lines()
+
     solver.draw_contoures()
 
     plot.ylabel("y")
@@ -30,8 +38,4 @@ def main():
     plot.title("Линии уровня функции" + my_fun.func_str)
     plot.show()
 
-    # left, right = 0, 1
-    # eps = 0.01
-    # fib = Fibonacci()
-    # print(fib.method(left, right))
     return
