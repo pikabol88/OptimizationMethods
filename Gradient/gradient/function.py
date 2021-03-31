@@ -1,6 +1,7 @@
 import pylab
 from typing import List
 import numpy as np
+import math
 
 
 class Function:
@@ -9,6 +10,9 @@ class Function:
 
     def f(self, x1, x2):
         return 4 * x1 + x2 + 4 * np.sqrt(1 + 3 * x1 ** 2 + x2 ** 2)
+
+    def eval(x1: float, x2: float) -> float:
+        return 4 * x1 + x2 + 4 * math.sqrt(1 + 3 * x1 * x1 + x2 * x2)
 
     def plot_lines(self):
         x = np.arange(-10, 10, 0.05)
