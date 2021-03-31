@@ -93,8 +93,9 @@ class Solver:
         for i in range(x_mesh.shape[0]):
             for j in range(x_mesh.shape[1]):
                 z[i,j] = f((x_mesh[i,j], y_mesh[i,j]))
-        axis.contourf(x_mesh, y_mesh, z, levels=15)
-        axis.plot(x.tolist()[0], y.tolist()[0], 'rX--')
+        cs = axis.contour(x_mesh, y_mesh, z, levels=15)
+        axis.plot(x.tolist()[0], y.tolist()[0],  'bX--')
+        axis.clabel(cs, colors="black")
         fig.set_figwidth(8)
         fig.set_figheight(8)
         return fig, axis
