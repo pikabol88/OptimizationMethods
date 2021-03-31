@@ -1,5 +1,6 @@
 import pylab
 from typing import List, Tuple
+import matplotlib.pyplot as plt
 import numpy as np
 import math
 
@@ -28,7 +29,19 @@ class Function:
         pylab.title("Линии уровня функции" + self.func_str)
         pylab.show()
 
-    def newton(self, x_start: np.array = np.array([1., 1.])) -> List[np.array]:
+
+    def plot(self)->None:
+        fig = plt.figure()
+        ax = fig.add_subplot(1, 1, 1, projection='3d')
+
+        x1, x2 = np.meshgrid(np.linspace(-2, 1, 100), np.linspace(-2, 1, 100))
+        z = 4 * x1 + x2 + 4 * np.sqrt(1 + 3 * x1 ** 2 + x2 ** 2)
+
+        ax.plot_surface(x1, x2, z)
+
+        plt.show()
+
+    def newton(self, x_start: np.array = np.array([0, 0])) -> List[np.array]:
         x1 = x_start[0]
         x2 = x_start[1]
         res = [x_start]
@@ -51,6 +64,7 @@ class Function:
             res.append(np.array([x1, x2]))
 
         return res
+
 
     def _hesse_coef(self, x1: float, x2: float):
         F11 = -36 * pow(x1, 2) / pow((1 + 3 * pow(x1, 2) + pow(x2, 2)), 1.5) + 12 / np.sqrt(
