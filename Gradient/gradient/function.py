@@ -1,5 +1,5 @@
 import pylab
-from typing import List
+from typing import List, Tuple
 import numpy as np
 import math
 
@@ -8,13 +8,13 @@ class Function:
     def __init__(self) -> None:
         self.func_str = "$4x_1+x_2+4\sqrt{1+3x_1^2+x_2^2}$"
 
-    def f(self, x1, x2):
+    def f(self, x1: float, x2: float) -> float:
         return 4 * x1 + x2 + 4 * np.sqrt(1 + 3 * x1 ** 2 + x2 ** 2)
 
     def eval(x1: float, x2: float) -> float:
         return 4 * x1 + x2 + 4 * math.sqrt(1 + 3 * x1 * x1 + x2 * x2)
 
-    def plot_lines(self):
+    def plot_lines(self) -> None:
         x = np.arange(-10, 10, 0.05)
         y = np.arange(-10, 10, 0.05)
         xgrid, ygrid = np.meshgrid(x, y)
@@ -52,7 +52,7 @@ class Function:
 
         return res
 
-    def _hesse_coef(self, x1, x2):
+    def _hesse_coef(self, x1: float, x2: float):
         F11 = -36 * pow(x1, 2) / pow((1 + 3 * pow(x1, 2) + pow(x2, 2)), 1.5) + 12 / np.sqrt(
             1 + 3 * pow(x1, 2) + pow(x2, 2))
         F12 = -12 * x1 * (x2 / pow((1 + 3 * pow(x1, 2) + pow(x2, 2)), 1.5))
@@ -60,13 +60,13 @@ class Function:
         F22 = -4 * pow(x2, 2) / pow((1 + 3 * pow(x1, 2) + pow(x2, 2)), 1.5) + 4 / np.sqrt(1 + 3 * (x1 ** 2) + x2 ** 2)
         return F11, F12, F21, F22
 
-    def _det(self, F11, F12, F21, F22):
+    def _det(self, F11: float, F12: float, F21: float, F22: float) -> float:
         return F11 * F22 - F21 * F12
 
-    def _F1(self, x1, x2):
+    def _F1(self, x1: float, x2: float) -> float:
         num = 12 * (x1 / np.sqrt(1 + 3 * x1 ** 2 + x2 ** 2)) + 4
         return num
 
-    def _F2(self, x1, x2):
+    def _F2(self, x1: float, x2: float) -> float:
         num = 4 * (x2 / np.sqrt(1 + 3 * x1 ** 2 + x2 ** 2)) + 1
         return num
