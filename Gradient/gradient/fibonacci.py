@@ -1,5 +1,6 @@
 import numpy as np
 from gradient.function import OneVarFunction
+from gradient.dichotomy_method import dichotomy_method
 
 class Fibonacci:
     def seq(self, n: int) -> int:
@@ -14,7 +15,8 @@ class Fibonacci:
         
         while np.sqrt(pow(func._F2(a, b), 2) + pow(func._F1(a, b), 2)) >= eps:
             func_one_var = OneVarFunction(a, b, func._F1(a, b), func._F2(a, b))
-            alpha = self.minimize(func_one_var, a, b, eps)
+            #alpha = self.minimize(func_one_var, a, b, eps)
+            alpha = dichotomy_method(func_one_var, a, b, eps)
             a, b = a - alpha * func._F1(a, b), b - alpha * func._F2(a, b)
         
         return a, b
