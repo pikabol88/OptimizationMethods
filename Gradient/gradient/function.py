@@ -15,9 +15,6 @@ class Function:
     def f(self, x1: float, x2: float) -> float:
         return 4 * x1 + x2 + 4 * np.sqrt(1 + 3 * x1 ** 2 + x2 ** 2)
 
-    def eval(x1: float, x2: float) -> float:
-        return 4 * x1 + x2 + 4 * math.sqrt(1 + 3 * x1 * x1 + x2 * x2)
-
     def plot_lines(self) -> None:
         x = np.arange(-0.5, 0.1, 0.05)
         y = np.arange(-0.5, 0.1, 0.05)

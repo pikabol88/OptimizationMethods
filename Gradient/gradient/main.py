@@ -26,8 +26,9 @@ def main():
     plot.xlabel("x")
     plot.title("Линии уровня функции" + my_fun.func_str)
     plot.show()
-  #  left, right = 0, 1
-  #  eps = 0.01
-  #  fib = Fibonacci()
-  #  fib.method(left, right)
+  
+    left, right = 0, 1
+    eps = 0.01
+    fib = Fibonacci()
+    print(fib.method(left, right))
     return
