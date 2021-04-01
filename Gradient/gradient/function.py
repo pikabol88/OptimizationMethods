@@ -16,8 +16,8 @@ class Function:
         return 4 * x1 + x2 + 4 * np.sqrt(1 + 3 * x1 ** 2 + x2 ** 2)
 
     def plot_lines(self) -> None:
-        x = np.arange(-0.5, 0.1, 0.05)
-        y = np.arange(-0.5, 0.1, 0.05)
+        x = np.arange(-1, 0.5, 0.05)
+        y = np.arange(-1, 0.5, 0.05)
         xgrid, ygrid = np.meshgrid(x, y)
 
         zgrid = 4 * xgrid + ygrid + 4 * np.sqrt(1 + 3 * xgrid ** 2 + ygrid ** 2)
@@ -50,7 +50,8 @@ class Function:
 
         plt.show()
 
-    def newton(self, x_start: np.array = np.array([0, 0]), eps = 0.1) -> List[np.array]:
+
+    def newton(self, x_start: np.array = np.array([-0.5, 0.25]), eps = 0.01) -> List[np.array]:
         x1 = x_start[0]
         x2 = x_start[1]
         res = [x_start]
@@ -66,6 +67,7 @@ class Function:
             F2 = self._F2(x1, x2)
             x1 = x1 - 1 / detH * (F22 * F1 - F21 * F2)
             x2 = x2 - 1 / detH * (F11 * F2 - F12 * F1)
+            print("x1 = ", x1, "x2 = ", x2)
             res.append(np.array([x1, x2]))
 
         return res

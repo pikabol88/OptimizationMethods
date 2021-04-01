@@ -115,6 +115,8 @@ class FastestDesc(Solver):
             alpha = fib_min(fib_nums, self.x[-1], grad)
             self.x.append(self.x[-1] - alpha * grad)
             self.iters += 1
+            print("x1 = ", self.x[-1][0], "x2 = ", self.x[-1][1])
+            print("step =", alpha)
         return self.x[-1]
 
 class DFP(Solver):
@@ -140,4 +142,6 @@ class DFP(Solver):
             self.iters += 1
             if self.iters % 2 == 0:
                 A = self.refresh_matrix(A)
+            print("x1 = ", self.x[-1][0],"x2 = ", self.x[-1][1] )
+            print("step =", alpha)
         return self.x[-1]

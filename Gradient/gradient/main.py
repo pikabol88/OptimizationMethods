@@ -7,6 +7,7 @@ def main():
     my_fun = Function()
     # my_fun.plot_lines()
     # my_fun.plot()
+    '''
     for eps in [1e-1, 1e-2, 1e-3, 1e-4]:
         print(f"\nepsilon = {eps}\n")
 
@@ -34,6 +35,35 @@ def main():
         print(f'\tsolution: {solution}')
         print(f'\titers: {solver.get_iter_num()}')
         #my_fun.plot_lines()
+'''
+
+    print("Fastest Descent:")
+    solver = FastestDesc()
+    solution = solver.get_solution((-0.5, 0.25), 0.01)
+    print('\tsolution: ' + str(solution))
+    print('\titers: ' + str(solver.get_iter_num()))
+
+    solver.draw_contoures()
+
+    plot.ylabel("y")
+    plot.xlabel("x")
+    plot.title("Линии уровня функции" + my_fun.func_str)
+    plot.show()
+
+
+    print("Newton:")
+    res = my_fun.newton()
+    my_fun.set_points(res)
+    print('\tsolution: ' + str(res[-1]))
+    print('\titers: ' + str(my_fun.iter))
+    my_fun.plot_lines()
+
+
+    print("DFP:")
+    solver = DFP()
+    solution = solver.get_solution((-0.5, 0.25), 0.01)
+    print('\tsolution: ' + str(solution))
+    print('\titers: ' + str(solver.get_iter_num()))
 
     solver.draw_contoures()
 
