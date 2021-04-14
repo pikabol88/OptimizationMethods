@@ -9,17 +9,17 @@ func_grad = lambda x: [12 * (x[0] / np.sqrt(1 + 3 * x[0] ** 2 + x[1] ** 2)) + 4,
                        4 * (x[1] / np.sqrt(1 + 3 * x[0] ** 2 + x[1] ** 2)) + 1]
 
 rest = [
-    lambda x: -x[0],
-    lambda x: x[0] - 2 * x[1] - 0.3,
-    lambda x: -x[0] + 2 * x[1] - 1,
-    lambda x: x[0] + x[1] - 1
+    lambda x: x[0],
+    lambda x: x[1],
+    lambda x: x[0] - 2 * x[1] - 1,
+    lambda x: -x[0] - x[1] - 1
 ]
 
 rest_grads = [
-    lambda x: [-1, 0],
+    lambda x: [1, 0],
+    lambda x: [0, 1],
     lambda x: [1, -2],
-    lambda x: [-1, 2],
-    lambda x: [1, 1]
+    lambda x: [-1, -1]
 ]
 
 
@@ -87,7 +87,9 @@ def zoytendeyk(x0: List[float], eta: int) -> List[float]:
         
         print(x)
 
-        if delta < -max([func(x)] + [r(x) for r in rest]) and abs(eta) < 1e-6:
+        tmp = [func(x)] + [r(x) for r in rest]
+
+        if delta < -max([r(x) for r in rest]) and abs(eta) < 1e-5:
             break
     
     return x

@@ -5,9 +5,9 @@ import numpy as np
 
 def main():
     
-    # plot_restrictions(point_on_boarder=False)
-    # plot_restrictions(point_on_boarder=True)
+    plot_restrictions(point_on_boarder=False)
+    plot_restrictions(point_on_boarder=True)
 
-    res = zoytendeyk([0.2, 0.4], 0.5)
+    res = zoytendeyk([-0.2, -0.4], 0.1)
     print(res)
     return
