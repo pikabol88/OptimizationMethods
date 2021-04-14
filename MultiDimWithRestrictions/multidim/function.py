@@ -58,15 +58,3 @@ class Function:
     def _F2(self, x1: float, x2: float) -> float:
         num = 4 * (x2 / np.sqrt(1 + 3 * x1 ** 2 + x2 ** 2)) + 1
         return num
-
-
-class OneVarFunction:
-    def __init__(self, x_0, x_1, grad_0, grad_1) -> None:
-        self._x_0 = x_0
-        self._x_1 = x_1
-        self._grad_0 = grad_0
-        self._grad_1 = grad_1
-
-    def eval(self, x: float) -> float:
-        return -x * (4 * self._grad_0 + self._grad_1) + 4 * self._x_0 + self._x_1 + np.sqrt(pow(x, 2) * (3 * pow(self._grad_0, 2) + pow(self._grad_1, 2)) \
-        - 2 * x * (3 * self._x_0 * self._grad_0 + self._x_1 * self._grad_1) + 1 + 3 * pow(self._x_0, 2) + pow(self._x_1, 2))
