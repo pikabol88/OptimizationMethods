@@ -48,6 +48,17 @@ class Function:
 
         plt.show()
 
+    def _det(self, F11: float, F12: float, F21: float, F22: float) -> float:
+        return F11 * F22 - F21 * F12
+
+    def _F1(self, x1: float, x2: float) -> float:
+        num = 12 * (x1 / np.sqrt(1 + 3 * x1 ** 2 + x2 ** 2)) + 4
+        return num
+
+    def _F2(self, x1: float, x2: float) -> float:
+        num = 4 * (x2 / np.sqrt(1 + 3 * x1 ** 2 + x2 ** 2)) + 1
+        return num
+
 
 class OneVarFunction:
     def __init__(self, x_0, x_1, grad_0, grad_1) -> None:
