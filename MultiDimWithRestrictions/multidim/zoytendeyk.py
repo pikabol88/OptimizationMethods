@@ -31,6 +31,22 @@ def get_bounds(x, delta):
     return res
 
 
+def get_step(x, eta, s):
+    alpha = 1
+
+    while True:
+        first_eq = func([x_k + alpha * s_k for x_k, s_k in zip(x, s)]) - func(x) <= 0.5 * eta * alpha
+
+        second_eq = True
+        for r in rest:
+            second_eq = second_eq and (r([x_k + alpha * s_k for x_k, s_k in zip(x, s)]) <= 0)
+
+        if first_eq and second_eq:
+            return alpha
+
+        alpha *= 0.5
+
+
 def simplex(x_k, d_k):
     bounds_idxs = get_bounds(x_k, d_k)
     aux_matrix = np.zeros(shape=(1 + len(bounds_idxs), 3))
@@ -64,13 +80,14 @@ def zoytendeyk(x0: List[float], eta: int) -> List[float]:
         *s, eta = simplex(x, delta)
 
         if eta < delta:
+            alpha = get_step(x, eta, s)
             x = [x_k + alpha * s_k for x_k, s_k in zip(x, s)]
         else:
             delta *= lam
         
         print(x)
 
-        if delta < min([func(x)] + [r(x) for r in rest]) and eta < 1e-6:
+        if delta < -max([func(x)] + [r(x) for r in rest]) and abs(eta) < 1e-6:
             break
     
     return x
