@@ -1,7 +1,10 @@
 from typing import List
-from scipy.optimize import linprog
+from scipy.optimize import linprog, OptimizeWarning
 
 import numpy as np
+import warnings
+
+warnings.simplefilter("error", OptimizeWarning)
 
 
 func = lambda x: 4 * x[0] + x[1] + 4 * np.sqrt(1 + 3 * x[0] ** 2 + x[1] ** 2)
@@ -65,7 +68,9 @@ def simplex(x_k, d_k):
     bias = np.zeros(aux_matrix.shape[0])
     bounds = [[-1, 1], [-1, 1], [None, None]]
 
-    return linprog(c=target_coefs, A_ub=aux_matrix, b_ub=bias, bounds=bounds, method='simplex').x
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        return linprog(c=target_coefs, A_ub=aux_matrix, b_ub=bias, bounds=bounds, method='simplex').x
 
 
 def zoytendeyk(x0: List[float], eta: int) -> List[float]:
@@ -75,8 +80,12 @@ def zoytendeyk(x0: List[float], eta: int) -> List[float]:
     delta = -eta
     x = x0
 
+    iter = 0
+
     # Основной этап
     while True:
+        iter += 1
+
         *s, eta = simplex(x, delta)
 
         if eta < delta:
@@ -85,7 +94,7 @@ def zoytendeyk(x0: List[float], eta: int) -> List[float]:
         else:
             delta *= lam
         
-        print(x)
+        print(f"iter: {iter} - x: {x}")
 
         tmp = [func(x)] + [r(x) for r in rest]
 
