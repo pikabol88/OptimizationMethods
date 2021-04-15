@@ -9,5 +9,5 @@ def main():
     plot_restrictions(point_on_boarder=True)
 
     res = zoytendeyk([-0.2, -0.4], 0.1)
-    print(res)
+    print(f"Answer: {res}")
     return
