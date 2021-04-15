@@ -1,7 +1,5 @@
 from multidim.restrictions import plot_restrictions
-from multidim.zoytendeyk import zoytendeyk
-
-import numpy as np
+from multidim.zoytendeyk import zoytendeyk, func
 
 def main():
     
@@ -10,4 +8,5 @@ def main():
 
     res = zoytendeyk([-0.2, -0.4], 0.1)
     print(f"Answer: {res}")
+    print(f"f(x) = {func(res)}")
     return
