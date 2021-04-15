@@ -9,4 +9,5 @@ def main():
     res = zoytendeyk([-0.2, -0.4], 0.1)
     print(f"Answer: {res}")
     print(f"f(x) = {func(res)}")
+    
     return

@@ -36,7 +36,6 @@ def get_bounds(x, delta):
 
 def get_step(x, eta, s):
     alpha = 1
-
     while True:
         first_eq = func([x_k + alpha * s_k for x_k, s_k in zip(x, s)]) - func(x) <= 0.5 * eta * alpha
 
@@ -46,31 +45,30 @@ def get_step(x, eta, s):
 
         if first_eq and second_eq:
             return alpha
-
         alpha *= 0.5
 
 
 def simplex(x_k, d_k):
     bounds_idxs = get_bounds(x_k, d_k)
-    aux_matrix = np.zeros(shape=(1 + len(bounds_idxs), 3))
-
-    aux_matrix[:, 2] = -1
-    aux_matrix[0, 0:2] = func_grad(x_k)
+    
+    A_ub = np.zeros(shape=(1 + len(bounds_idxs), 3))
+    A_ub[:, 2] = -1
+    A_ub[0, 0:2] = func_grad(x_k)
 
     j = 1
     for i in bounds_idxs:
-        aux_matrix[j, 0:2] = rest_grads[i](x_k)
+        A_ub[j, 0:2] = rest_grads[i](x_k)
         j += 1
 
-    target_coefs = np.zeros(3)
-    target_coefs[2] = 1
+    c = np.zeros(3)
+    c[2] = 1
 
-    bias = np.zeros(aux_matrix.shape[0])
+    b_ub = np.zeros(A_ub.shape[0])
     bounds = [[-1, 1], [-1, 1], [None, None]]
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        return linprog(c=target_coefs, A_ub=aux_matrix, b_ub=bias, bounds=bounds, method='simplex').x
+        return linprog(c=c, A_ub=A_ub, b_ub=b_ub, bounds=bounds, method='simplex').x
 
 
 def zoytendeyk(x0: List[float], eta: int) -> List[float]:
@@ -94,9 +92,7 @@ def zoytendeyk(x0: List[float], eta: int) -> List[float]:
         else:
             delta *= lam
         
-        print(f"iter: {iter} - x: {x}")
-
-        tmp = [func(x)] + [r(x) for r in rest]
+        print(f"iter: {iter} - x: {x} - delta: {delta} - eta: {eta} - f(x): {func(x)}")
 
         if delta < -max([r(x) for r in rest]) and abs(eta) < 1e-5:
             break
