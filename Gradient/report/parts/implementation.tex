@@ -1,0 +1,94 @@
+\documentclass[../body.tex]{subfiles}
+\begin{document}
+\subsection{Алгоритм метода наискорейшего спуска}
+\begin{enumerate}
+    \item \textit{Начальный этап:}
+        \begin{enumerate}
+            \item Выбрать параметр $\varepsilon>0$ - параметр окончания вычислений
+            \item Положить $k=0$
+            \item Выбрать начальное приближение $x_0$, то есть $x_k=x_0$
+        \end{enumerate}
+    \item \textit{Основной этап:}
+        \begin{enumerate}
+            \item Вычислить $grad f(x_k)$
+            \item Подобрать шаг $0<\alpha_k<1$, решив задачу одномерной минимизации методом Фибоначчи для задачи $min{\{f(x_k-\alpha_k*grad f(x_k))\}}$
+            \item Вычислить $x_{k+1}=x_k-\alpha_k*grad f(x_k)$, перейти к шагу 2.(a)
+        \end{enumerate}
+    \item \textit{Условие окончания вычислений:} $||grad f(x_k)||<\varepsilon$
+\end{enumerate}
+
+\subsection{Алгоритм метода Фибоначчи}
+\begin{enumerate}
+	\item Вычислить константу различимости $\alpha$ и задать точность вычислений $\varepsilon>0$
+	\item Выбрать количество генерируемых чисел Фибоначии $n:F_n >\frac{b-a}{\varepsilon}$
+	\item Положить $k=1$
+	\item Вычислить параметры $\lambda_1=a+\frac{F_{n-2}}{F_n}(b-a)$ и $\mu_1=a+\frac{F_{n-1}}{F_n}(b-a)$
+	\item Вычислить значения функции в точках $\lambda_k$ и $\mu_k:$
+	    \begin{itemize}
+	        \item Если $g(\lambda_k)>g(\mu_k)$, то
+	            \begin{equation}
+	                \left\{
+	                \begin{array}{ll}
+	                    a_{k+1}=\lambda_k\\
+	                    b_{k+1}=b_k\\
+	                    \lambda_{k+1}=\mu_k\\
+	                    \mu_{k+1} = a_{k+1}+\frac{F_{n-k-1}}{F_{n-k}}(b_{k+1}-a_{k+1})\\
+	                \end{array}
+	                \right.
+	           \end{equation}
+	       \item Иначе
+	            \begin{equation}
+	               \left\{
+	               \begin{array}{ll}
+	                   a_{k+1}=a_k\\
+	                   b_{k+1}=\mu_k\\
+	                   \mu_{k+1}=\lambda_k\\ \lambda_{k+1}=a_{k+1}+\frac{F_{n-k-2}}{F_{n-k}}(b_{k+1}-a_{k+1})\\
+	               \end{array}
+	               \right.
+	           \end{equation}
+        \end{itemize}
+	\item Если $k<n-1$, то положить $k=k+1$ и перейти к пункту 5. Иначе положить $\lambda_{n}=\lambda_{n-1}$ и $\mu_{n}=\lambda_n+\alpha$
+	\item Если $g(\lambda_n)=g(\mu_n)$, то положить $a_n=\lambda_n$, $b_n=b_{n-1}$, иначе $a_n=a_{n-1}$, $b_n=\mu_n$
+	\item Повторять алгоритм, пока заданный интервал неопределенности не удовлетворит точности вычислений $\varepsilon$
+\end{enumerate}
+
+\subsection{Градиентный метод Ньютона}	
+\begin{enumerate}
+    \item Выбрать начальное приближение $x_0$, задать точность вычислений $\varepsilon>0$, принять шаг $\alpha=1$ и положить $k=0$
+    \item Произвести выбор направления:
+        \begin{enumerate}
+            \item Вычислить матрицу Гессе $H(x_k)$ и градиент для функции $f$ в точке $x_k$
+            \item Найти обратную матрицу $H^{-1}(x_k)$
+            \item Вычислить $x_{k+1}=x_k-\alpha *H^{-1}(x_k)*grad f(x_k)$
+        \end{enumerate}
+    \item Завершить процесс, если ${||grad f(x_k)||}^2<\varepsilon$. Иначе перейти к шагу 2
+\end{enumerate}
+
+Для нахождения обратной матрицы для матрицы $A$ применяется встроенный метод $numpy.linalg.inv(A)$, вызывающий метод с использованием LU-факторизации $numpy.linalg.solve(A,I)$, где $I$ - соответсвующая единичная матрица. Данный метод хорош тем, что разложение на матрицы $L$ и $U$ не зависит от свободных членов, что позволяет избежать дополнительной трудоемкости данной операции.
+
+\subsection{Метод Девидона - Флетчера - Пауэлла}
+\begin{enumerate}
+    \item \textit{Начальный этап:}
+        \begin{enumerate}
+            \item Выбрать параметр $\varepsilon>0$ - параметр окончания вычислений
+            \item Выбрать начальное приближение $x_0$
+            \item Положить $k=1$
+            \item Положить для матрицы $A_1=E$, $E$ - соответствующая единичная матрица
+            \item Построить множество моментов обновления алгоритма $I_0=\{n,2n,...\}$
+            \item Вычислить $\omega_1=-grad f(x_0)$
+        \end{enumerate}
+    \item \textit{Основной этап:}
+        \begin{enumerate}
+            \item Найти направление спуска $p_k=A_k\omega_k$
+            \item Подобрать шаг $\alpha_k:min{\{\phi_k(\alpha)\}}=f(x_{k-1}+\alpha_k p_k)$ методом Фибоначчи
+            \item Вычислить точку $x_k=x_{k-1}+\alpha_k p_k$ и $\omega_{k+1}=-grad f(x_k)$
+            \item Если $k\in I_0$, то положить $A_{k+1}=E$ и вернуться к шагу 2.(a)
+            \item Положить $\Delta x_k=x_k-x_{k-1}$ и $\Delta\omega_k=\omega_{k+1}-\omega_k$
+            \item Построить матрицу $A_{k+1}$ по формуле и вернуться к шагу 2.(a):
+                \begin{equation}
+                    A_{k+1}=A_k-{\frac{\Delta x_k{(\Delta x_k)}^T}{\Delta\omega_k^T \Delta x_k}}-{\frac{A_k\Delta\omega_k{(\Delta\omega_k)}^TA_k^T}{\Delta\omega_k^T A_k\Delta\omega_k}}
+                \end{equation}
+        \end{enumerate}
+    \item \textit{Условие окончания вычислений:} $||\omega_k||<\varepsilon$
+\end{enumerate}
+\end{document}

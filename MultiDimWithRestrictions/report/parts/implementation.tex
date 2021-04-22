@@ -1,0 +1,54 @@
+\documentclass[../body.tex]{subfiles}
+\begin{document}
+\subsection{Метод всевозможных направлений Зойтендейка}
+\subsubsection{Начальный этап}
+\begin{enumerate}
+    \item Выбрать совокупность параметров $\{\xi_i\}_0^m:\xi_i>0$, использующихся для улучшения свойств сходимости задачи. В решении рекомендовано взять $\xi_i=1$ для $\forall i=\overline{0,m}$
+    \item Выбрать параметр дробления $0<\lambda<1$. Рекомендовано взять для решения задачи $\lambda=\frac{1}{2}$
+    \item Выбрать начальное приближение $x_0\in S$, где $S=\{X|\phi_i(x)\leq0$ для $\forall i=\overline{1,m}\}$ и параметр $\eta_0$
+    \item Взять критерий близости к почти активным ограничениям $\delta_0=-\eta_0$, где $\delta_0>0$, $J_{\delta_k}(x_k)=\{i\in M|-\delta_k\leq\phi_i(x_k)\leq0\}$ - множество номеров почти активных ограничений для $M=\overline{1,m}$
+\end{enumerate}
+
+\subsubsection{Поиск начального приближения}
+\begin{enumerate}
+    \item Найти $min\eta<0$ при условии $\phi_i(x)*\eta\leq0$, где $i=\overline{1,m}$
+    \item Решением будет точка $x_0:\phi_i(x_0)\leq0$, которая является допустимой точкой для исходной задачи
+    \item $\eta_0=min\eta$
+\end{enumerate}
+
+\subsubsection{Основной этап}
+\begin{enumerate}
+    \item Известны $x_k\in S$ и $\delta_k>0$
+    \item Решить вспомогательную задачу линейного программирования симплекс-методом для определения направления спуска $s:min\eta$ при условиях
+        \begin{equation}
+            \left\{
+            \begin{array}{ll}
+                \bigtriangledown^T\phi_0(x_k)*s\leq\eta\xi_0\\
+                \bigtriangledown^T\phi_i(x_k)*s\leq\eta\xi_i
+            \end{array}
+            \right.
+        \end{equation}
+        для $i\in J_{\delta_k}(x_k)$
+    \item Обозначить найденные $s_{\delta_k}(x_k)=s_k$ и $\eta_{\delta_k}(x_k)=\eta_k$
+    \item Если $\eta_k<-\delta_k:$
+        \begin{itemize}
+            \item Делаем шаг $\alpha_k$ по выбранному направлению $x_{k+1}=x_k+\alpha_ks_k$ и $\delta_{k+1}=\delta_k$
+            \item Иначе шаг не делается, то есть $x_{k+1}=x_k$ и $\delta_{k+1}=\lambda\delta_k$
+        \end{itemize}
+    \item Закончить работу алгоритма при $\delta_k<\delta_{0k}$, где $-\delta_{0k}=max\phi_i(x_k)$ для $i\not\in J_0(x_k)$ - не для активных ограничений, и $\eta_k=0$
+\end{enumerate}
+
+\subsubsection{Выбор величины шага по принципу дробления}
+\begin{enumerate}
+    \item Положить $\alpha_k=\alpha_0*\lambda^{ik}$, где $\alpha_0=1$
+    \item Выбрать $\alpha_k$, удовлетворяющее условиям:
+        \begin{equation}
+            \left\{
+            \begin{array}{ll}
+                \phi_0(x_k+\alpha_k*s_k)-\phi_0(x_k)\leq\xi_0\eta_k\alpha_k\\
+                \phi_i(x_k+\alpha_k*s_k)\leq0,i=\overline{1,m}
+            \end{array}
+            \right.
+        \end{equation}
+\end{enumerate}
+\end{document}
