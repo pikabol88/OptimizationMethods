@@ -11,11 +11,25 @@ func = lambda x: 4 * x[0] + x[1] + 4 * np.sqrt(1 + 3 * x[0] ** 2 + x[1] ** 2)
 func_grad = lambda x: [12 * (x[0] / np.sqrt(1 + 3 * x[0] ** 2 + x[1] ** 2)) + 4,
                        4 * (x[1] / np.sqrt(1 + 3 * x[0] ** 2 + x[1] ** 2)) + 1]
 
+# rest = [
+#     lambda x: x[0],
+#     lambda x: x[1],
+#     lambda x: x[0] - 2 * x[1] - 1,
+#     lambda x: -x[0] - x[1] - 1
+# ]
+# 
+# rest_grads = [
+#     lambda x: [1, 0],
+#     lambda x: [0, 1],
+#     lambda x: [1, -2],
+#     lambda x: [-1, -1]
+# ]
+
 rest = [
     lambda x: x[0],
     lambda x: x[1],
     lambda x: x[0] - 2 * x[1] - 1,
-    lambda x: -x[0] - x[1] - 1
+    lambda x: -x[0] - x[1] - 0.7504
 ]
 
 rest_grads = [
@@ -78,7 +92,7 @@ def zoytendeyk(x0: List[float], eta: int) -> List[float]:
     delta = -eta
     x = x0
 
-    iter = 0
+    iter = -1
 
     # Основной этап
     while True:
@@ -92,9 +106,9 @@ def zoytendeyk(x0: List[float], eta: int) -> List[float]:
         else:
             delta *= lam
         
-        print(f"iter: {iter} - x: {x} - delta: {delta} - eta: {eta} - f(x): {func(x)}")
+        print(f"iter: {iter} - x: {x}")# - delta: {delta} - eta: {eta} - f(x): {func(x)}")
 
-        if delta < -max([r(x) for r in rest]) and abs(eta) < 1e-5:
+        if delta < -max([r(x) for r in rest]) and abs(eta) < 1e-3:
             break
     
     return x
