@@ -5,7 +5,7 @@
 
 int main() {
     std::ofstream file;
-    file.open("output.txt", std::ios::out);
+    file.open("../sticks/matrix.txt", std::ios::out);
 
     double L = 11.7;
     std::vector<double> lengths = {0.6, 0.68, 0.83, 1.61, 1.67, 1.79, 2.8, 3.25, 3.25, 3.7, 3.95};
@@ -43,13 +43,11 @@ int main() {
     }
     */
 
-    for (size_t column = 0; column < idxs.size(); ++column) {
-        for (size_t row = 0; row < idxs[column].size(); ++row)
-            file << idxs[column][row] << " ";
-        file << std::endl;
+    for (size_t column = 0; column < idxs[0].size(); ++column) {
+        for (size_t row = 0; row < idxs.size(); ++row)
+            file << idxs[row][column] << " ";
+        file << subs[column] << std::endl;
     }
-    for (size_t row = 0; row < idxs[0].size(); ++row)
-        file << subs[row] << std::endl;
 
     file.close();
     return 0;
