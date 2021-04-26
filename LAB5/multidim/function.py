@@ -58,3 +58,5 @@ class Function:
     def _F2(self, x1: float, x2: float) -> float:
         num = 4 * (x2 / np.sqrt(1 + 3 * x1 ** 2 + x2 ** 2)) + 1
         return num
+
+

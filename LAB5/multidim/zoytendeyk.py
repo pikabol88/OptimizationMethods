@@ -6,7 +6,6 @@ import warnings
 
 warnings.simplefilter("error", OptimizeWarning)
 
-
 func = lambda x: 4 * x[0] + x[1] + 4 * np.sqrt(1 + 3 * x[0] ** 2 + x[1] ** 2)
 func_grad = lambda x: [12 * (x[0] / np.sqrt(1 + 3 * x[0] ** 2 + x[1] ** 2)) + 4,
                        4 * (x[1] / np.sqrt(1 + 3 * x[0] ** 2 + x[1] ** 2)) + 1]
@@ -40,6 +39,27 @@ rest_grads = [
 ]
 
 
+def slaters_condition():
+    print('\nПроверка условия Слейтера ----> решим задачу минимизации')
+    A = np.array([[1, 0], [0, 1], [1, -2], [-1, -1]])
+    b = np.array([0, 0, 0, 0])
+    c = np.array([1, 1])
+    res = linprog(c, A_ub=A, b_ub=b, bounds=(0, None))
+    print('=>\nНайденная точка: x=', res.x)
+
+    print('\nПроверка условия Слейтера ----> решим задачу минимизации\n(граничные условия)')
+    A = np.array([[1, 0], [0, 1], [1, -2], [-1, -1]])
+    b = np.array([0, 0, 1, 0.7504])
+    c = np.array([1, 1])
+    res = linprog(c, A_ub=A, b_ub=b, bounds=(0, None))
+    print('=>\nНайденная точка: x=', res.x)
+
+
+def slater_slay():
+    print('\nПроверка условия Слейтера ----> решим СЛАУ:')
+    print("x1 <= 0\nx2 <= 0\nx1 - 2x2 - 1<= 0\n-x1 - x2 - 1 <= 0\n=>\nНайденная точка: x = [0,0]")
+
+
 def get_bounds(x, delta):
     res = []
     for idx in range(len(rest)):
@@ -64,7 +84,7 @@ def get_step(x, eta, s):
 
 def simplex(x_k, d_k):
     bounds_idxs = get_bounds(x_k, d_k)
-    
+
     A_ub = np.zeros(shape=(1 + len(bounds_idxs), 3))
     A_ub[:, 2] = -1
     A_ub[0, 0:2] = func_grad(x_k)
@@ -105,10 +125,10 @@ def zoytendeyk(x0: List[float], eta: int) -> List[float]:
             x = [x_k + alpha * s_k for x_k, s_k in zip(x, s)]
         else:
             delta *= lam
-        
-        print(f"iter: {iter} - x: {x}")# - delta: {delta} - eta: {eta} - f(x): {func(x)}")
+
+        print(f"iter: {iter} - x: {x}")  # - delta: {delta} - eta: {eta} - f(x): {func(x)}")
 
         if delta < -max([r(x) for r in rest]) and abs(eta) < 1e-3:
             break
-    
+
     return x

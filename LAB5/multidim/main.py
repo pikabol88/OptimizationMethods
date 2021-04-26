@@ -1,5 +1,5 @@
 from multidim.restrictions import plot_restrictions
-from multidim.zoytendeyk import zoytendeyk, func, rest
+from multidim.zoytendeyk import zoytendeyk, func, rest, slaters_condition, slater_slay
 
 def main():
     
@@ -12,5 +12,8 @@ def main():
     res = zoytendeyk(x0, eta0)
     print(f"Answer: {res}")
     print(f"f(x) = {func(res)}")
+
+    slaters_condition()
+    slater_slay()
     
     return
