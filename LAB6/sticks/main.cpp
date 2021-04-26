@@ -4,8 +4,12 @@
 #include <fstream>
 
 int main() {
-    std::ofstream file;
-    file.open("../sticks/matrix.txt", std::ios::out);
+    std::ofstream matrix_file;
+    std::ofstream free_vector_file;
+    std::ofstream target_func_file;
+    matrix_file.open("../sticks/matrix.txt", std::ios::out);
+    free_vector_file.open("../sticks/free_vector.txt", std::ios::out);
+    target_func_file.open("../sticks/target_func.txt", std::ios::out);
 
     double L = 11.7;
     std::vector<double> lengths = {0.6, 0.68, 0.83, 1.61, 1.67, 1.79, 2.8, 3.25, 3.25, 3.7, 3.95};
@@ -35,20 +39,20 @@ int main() {
                                                 }
                                             }
 
-    /*
-    std::vector<size_t> sums(11);
-    for (const auto& subarr : idxs) {
-        for (size_t i = 0; i < subarr.size(); ++i)
-            sums[i] += subarr[i];
-    }
-    */
-
     for (size_t column = 0; column < idxs[0].size(); ++column) {
         for (size_t row = 0; row < idxs.size(); ++row)
-            file << idxs[row][column] << " ";
-        file << subs[column] << std::endl;
+            matrix_file << idxs[row][column] << " ";
+        matrix_file /*<< subs[column]*/ << std::endl;
     }
 
-    file.close();
+    for (const auto& el : amounts)
+        free_vector_file << el << " ";
+
+    for (const auto& el : subs)
+        target_func_file << el << " ";
+
+    matrix_file.close();
+    free_vector_file.close();
+    target_func_file.close();
     return 0;
 }
