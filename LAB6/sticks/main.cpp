@@ -7,15 +7,15 @@ int main() {
     std::ofstream matrix_file;
     std::ofstream free_vector_file;
     std::ofstream target_func_file;
-    matrix_file.open("../sticks/matrix.txt", std::ios::out);
-    free_vector_file.open("../sticks/free_vector.txt", std::ios::out);
-    target_func_file.open("../sticks/target_func.txt", std::ios::out);
+    matrix_file.open("../output/matrix.txt", std::ios::out);
+    free_vector_file.open("../output/free_vector.txt", std::ios::out);
+    target_func_file.open("../output/target_func.txt", std::ios::out);
 
     double L = 11.7;
     std::vector<double> lengths = {0.6, 0.68, 0.83, 1.61, 1.67, 1.79, 2.8, 3.25, 3.25, 3.7, 3.95};
     std::vector<int> amounts = {249, 60, 97, 76, 72, 18, 43, 5424, 450, 515, 28};
     std::vector<double> restrictions;
-    for (const auto& leng : lengths)
+    for (const auto &leng : lengths)
         restrictions.push_back(ceil(L / leng));
 
     std::vector<std::vector<size_t>> idxs;
@@ -42,13 +42,13 @@ int main() {
     for (size_t column = 0; column < idxs[0].size(); ++column) {
         for (size_t row = 0; row < idxs.size(); ++row)
             matrix_file << idxs[row][column] << " ";
-        matrix_file /*<< subs[column]*/ << std::endl;
+        matrix_file << std::endl;
     }
 
-    for (const auto& el : amounts)
+    for (const auto &el : amounts)
         free_vector_file << el << " ";
 
-    for (const auto& el : subs)
+    for (const auto &el : subs)
         target_func_file << el << " ";
 
     matrix_file.close();
