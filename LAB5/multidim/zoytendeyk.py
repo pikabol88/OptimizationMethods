@@ -10,25 +10,11 @@ func = lambda x: 4 * x[0] + x[1] + 4 * np.sqrt(1 + 3 * x[0] ** 2 + x[1] ** 2)
 func_grad = lambda x: [12 * (x[0] / np.sqrt(1 + 3 * x[0] ** 2 + x[1] ** 2)) + 4,
                        4 * (x[1] / np.sqrt(1 + 3 * x[0] ** 2 + x[1] ** 2)) + 1]
 
-# rest = [
-#     lambda x: x[0],
-#     lambda x: x[1],
-#     lambda x: x[0] - 2 * x[1] - 1,
-#     lambda x: -x[0] - x[1] - 1
-# ]
-# 
-# rest_grads = [
-#     lambda x: [1, 0],
-#     lambda x: [0, 1],
-#     lambda x: [1, -2],
-#     lambda x: [-1, -1]
-# ]
-
 rest = [
     lambda x: x[0],
     lambda x: x[1],
     lambda x: x[0] - 2 * x[1] - 1,
-    lambda x: -x[0] - x[1] - 0.7504
+    lambda x: -x[0] - x[1] - 1#0.7504
 ]
 
 rest_grads = [
@@ -47,25 +33,7 @@ def validatex0(x0):
     valid = False
     while not valid:
         delta = -eta
-        active_bounds = [idx for idx, r in enumerate(rest) if -delta <= r(x0) <= 0]
-
-        # Заполняем матрицу
-        A_ub = np.zeros(shape=(len(active_bounds) + 1, 3))
-        A_ub[0, -1] = -1
-        A_ub[0, 0:2] = func_grad(x0)
-        for idx, ab in enumerate(active_bounds):
-            A_ub[1 + idx, 0:2] = rest[ab](x0)
-            A_ub[1 + idx, -1] = -1
-
-        # Правая часть 0 так как перенесли
-        right_part = np.zeros(len(active_bounds) + 1)
-
-        # Так как η - это константа.
-        eta = np.zeros(shape=3)
-        eta[-1] = 1
-        bounds = [[-1, 1], [-1, 1], [None, None]]
-        
-        res = linprog(c=eta, A_ub=A_ub, b_ub=right_part, bounds=bounds, method='simplex')
+        res = simplex(x0, delta)
         s, eta = res.x[0:2], res.fun
         
         valid = False
@@ -148,7 +116,7 @@ def simplex(x_k, d_k):
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        return linprog(c=c, A_ub=A_ub, b_ub=b_ub, bounds=bounds, method='simplex').x
+        return linprog(c=c, A_ub=A_ub, b_ub=b_ub, bounds=bounds, method='simplex')
 
 
 def zoytendeyk(x0: List[float], eta: int) -> List[float]:
@@ -164,7 +132,7 @@ def zoytendeyk(x0: List[float], eta: int) -> List[float]:
     while True:
         iter += 1
 
-        *s, eta = simplex(x, delta)
+        *s, eta = simplex(x, delta).x
 
         if eta < delta:
             alpha = get_step(x, eta, s)
@@ -174,7 +142,7 @@ def zoytendeyk(x0: List[float], eta: int) -> List[float]:
 
         print(f"iter: {iter} - x: {x}")  # - delta: {delta} - eta: {eta} - f(x): {func(x)}")
 
-        if delta < -max([r(x) for r in rest]) and abs(eta) < 1e-3:
+        if delta < -max([r(x) for r in rest]) and abs(eta) < 1e-5:
             break
 
     return x
