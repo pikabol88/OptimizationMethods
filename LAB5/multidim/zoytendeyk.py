@@ -37,19 +37,24 @@ def validatex0(x0):
         s, eta = res.x[0:2], res.fun
         
         valid = False
-        alpha = 10
+        alpha = 1
+    
         while not valid:
-            valid = func(x0 + alpha * s) <= func(x0) + 1 / 2 * 1 * eta * alpha
-            for psi_fun in rest:
-                valid = valid and psi_fun(x0 + alpha * s) <= 0
+            valid = func(x0 + alpha * s) <= func(x0) + 0.5 * eta * alpha
+            
+            for r in rest:
+                valid = valid and r(x0 + alpha * s) <= 0
                 if not valid:
                     break
+            
             if not valid:
                 alpha *= 0.5
-                if alpha < 2 ** -10:
+                if alpha < pow(2, -10):
                     alpha = 0.5
                     break
-        x0 = x0 + alpha * s
+        
+        x0 += alpha * s
+    
     return x0
 
 
