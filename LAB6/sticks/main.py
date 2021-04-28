@@ -1,4 +1,6 @@
 import math
+import numpy
+
 from scipy.optimize import linprog
 
 
@@ -14,11 +16,14 @@ def main():
 
     solution = linprog(c=target_func, A_ub=matrix, b_ub=free_vec, method='simplex').x
 
+    np_matrix = numpy.matrix(matrix)
+    print(f"Matrix rank: {numpy.linalg.matrix_rank(np_matrix)}")
+
     not_zero = list()
     sum = 0
     for idx, num in enumerate(solution):
         if num != 0:
-            not_zero.append([idx, math.ceil(num)])
+            not_zero.append([numpy.array(matrix)[:, idx], math.ceil(num)])
             sum += math.ceil(num)
-    print(not_zero)
-    print(sum)
+    print(f"Non-zero solutions: {not_zero}")
+    print(f"Summary: {sum}")
