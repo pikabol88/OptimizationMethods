@@ -39,6 +39,52 @@ rest_grads = [
 ]
 
 
+def validatex0(x0):
+    eta = max([r(x0) for r in rest])
+    if eta < 0:
+        return x0
+
+    valid = False
+    while not valid:
+        delta = -eta
+        active_bounds = [idx for idx, r in enumerate(rest) if -delta <= r(x0) <= 0]
+
+        # Заполняем матрицу
+        A_ub = np.zeros(shape=(len(active_bounds) + 1, 3))
+        A_ub[0, -1] = -1
+        A_ub[0, 0:2] = func_grad(x0)
+        for idx, ab in enumerate(active_bounds):
+            A_ub[1 + idx, 0:2] = rest[ab](x0)
+            A_ub[1 + idx, -1] = -1
+
+        # Правая часть 0 так как перенесли
+        right_part = np.zeros(len(active_bounds) + 1)
+
+        # Так как η - это константа.
+        eta = np.zeros(shape=3)
+        eta[-1] = 1
+        bounds = [[-1, 1], [-1, 1], [None, None]]
+        
+        res = linprog(c=eta, A_ub=A_ub, b_ub=right_part, bounds=bounds, method='simplex')
+        s, eta = res.x[0:2], res.fun
+        
+        valid = False
+        alpha = 10
+        while not valid:
+            valid = func(x0 + alpha * s) <= func(x0) + 1 / 2 * 1 * eta * alpha
+            for psi_fun in rest:
+                valid = valid and psi_fun(x0 + alpha * s) <= 0
+                if not valid:
+                    break
+            if not valid:
+                alpha *= 0.5
+                if alpha < 2 ** -10:
+                    alpha = 0.5
+                    break
+        x0 = x0 + alpha * s
+    return x0
+
+
 def slaters_condition():
     print('\nПроверка условия Слейтера ----> решим задачу минимизации')
     A = np.array([[1, 0], [0, 1], [1, -2], [-1, -1]])
