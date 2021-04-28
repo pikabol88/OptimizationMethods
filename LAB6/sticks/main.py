@@ -23,7 +23,7 @@ def main():
     sum = 0
     for idx, num in enumerate(solution):
         if num != 0:
-            not_zero.append([numpy.array(matrix)[:, idx], math.ceil(num)])
+            not_zero.append([list(map(lambda x: -x, numpy.array(matrix)[:, idx])), math.ceil(num)])
             sum += math.ceil(num)
     print(f"Non-zero solutions: {not_zero}")
     print(f"Summary: {sum}")
