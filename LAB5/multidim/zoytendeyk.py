@@ -54,6 +54,7 @@ def validatex0(x0):
                     break
         
         x0 += alpha * s
+        print(f"x0: {x0}")
     
     return x0
 
