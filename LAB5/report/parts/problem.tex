@@ -5,7 +5,26 @@
     \item Ввести ограничения вида $\phi_i(x)\leq0$, где $i=\overline{1,m},m=4$, которые могут иметь линейный вид, таким образом, чтобы оптимальная точка решения данной задачи находилась:
         \begin{itemize}
             \item внутри введенной области
-            \item на границе введенной области
+                \begin{equation}
+                    \left\{
+                    \begin{array}{ll}
+                        x_1\leq0\\
+                        x_2\leq0\\
+                        x_1-2x_2-1\leq0\\
+                        -x_1-x_2-1\leq0\\
+                    \end{array}
+                    \right.
+                \end{equation}
+            \item на границе введенной области                            \begin{equation}
+                    \left\{
+                    \begin{array}{ll}
+                        x_1\leq0\\
+                        x_2\leq0\\
+                        x_1-2x_2-1\leq0\\
+                        -x_1-x_2-0.7504\leq0\\
+                    \end{array}
+                    \right.
+                \end{equation}
         \end{itemize}
     \item Решить задачу условной минимизации методом всевозможных направлений Зойтендейка
     \item Проиллюстрировать поведение алгоритма

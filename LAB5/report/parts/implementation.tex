@@ -11,9 +11,9 @@
 
 \subsubsection{Поиск начального приближения}
 \begin{enumerate}
-    \item Найти $min\eta<0$ при условии $\phi_i(x)*\eta\leq0$, где $i=\overline{1,m}$
-    \item Решением будет точка $x_0:\phi_i(x_0)\leq0$, которая является допустимой точкой для исходной задачи
-    \item $\eta_0=min\eta$
+    \item Найти $min\eta<0$ при условии $\phi_i(x)\leq\eta$, где $i=\overline{1,m}$
+    \item Если $x_0:\phi_i(x_0)\leq0$, то эта точка является допустимой точкой для исходной задачи и $\eta_0=min\eta$
+    \item Иначе итерации проводятся до тех пор, пока точка не окажется в области рассмотрения задачи
 \end{enumerate}
 
 \subsubsection{Основной этап}
@@ -35,7 +35,7 @@
             \item Делаем шаг $\alpha_k$ по выбранному направлению $x_{k+1}=x_k+\alpha_ks_k$ и $\delta_{k+1}=\delta_k$
             \item Иначе шаг не делается, то есть $x_{k+1}=x_k$ и $\delta_{k+1}=\lambda\delta_k$
         \end{itemize}
-    \item Закончить работу алгоритма при $\delta_k<\delta_{0k}$, где $-\delta_{0k}=max\phi_i(x_k)$ для $i\not\in J_0(x_k)$ - не для активных ограничений, и $\eta_k=0$
+    \item Закончить работу алгоритма при $\delta_k<\delta_{0k}$, где $-\delta_{0k}=max\phi_i(x_k)$ для $i\not\in J_0(x_k)$ - не для активных ограничений, и $\eta_k=0$. При этом $\delta_k<\varepsilon$
 \end{enumerate}
 
 \subsubsection{Выбор величины шага по принципу дробления}
