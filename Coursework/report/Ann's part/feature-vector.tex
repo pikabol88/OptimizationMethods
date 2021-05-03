@@ -1,19 +1,4 @@
 \documentclass[12pt,a4paper]{article}
-
-\usepackage[T1,T2A]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[english, russian]{babel}
-\usepackage{indentfirst}
-\usepackage{misccorr}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage[left=20mm,right=10mm, top=20mm,bottom=20mm,bindingoffset=0mm]{geometry}
-
-\setlength{\parskip}{6pt}
-\DeclareGraphicsExtensions{.png}
-
 \begin{document}
 Различают две группы методов $\Phi$ формирования вектора признаков $X'$ [1, 34]:
 \begin{itemize}
@@ -41,6 +26,8 @@
             ... & ... & ... & ... & ... & ...\\
             \bar{0}_m & \bar{1}_m & ... & \bar{x}_m & ... & \bar{255}_m\\
         \end{pmatrix}
+\end{equation}
+\begin{equation}
     \Phi_{LBP}(I^t)=X^t=
         \begin{pmatrix}
             \bar{0}_1 & \bar{1}_1 & ... & \bar{x}_1 & ... & \bar{255}_1\\
@@ -54,9 +41,9 @@
 Соответствующими векторами заменяются элементы $i$ в описаниях прецедентов $(i,y_i)$ в обучающей $\Tilde{G}^l$ и тестовой $\Tilde{G}^t$ выборках.
 
 Локальные бинарные шаблоны характеризуют локальные особенности изображения, а частоты этих особенностей можно рассматривать как обобщенную модель лица. При этом шаблоны не характеризуют расположение данных особенностей на изображении. Для этих целей нормализованное изображение разбивается на $s$ регионов, для каждого из которых вычисляется своя гистограмма $\Phi_{LBP}(i_j)$. Тогда результирующим описанием изображения $i$ является вектор значений $\bar{x}_i$, сформированный как конкатенация $s$ гистограмм, полученных по $s$ регионам исходного изображения:
-\begin{enumerate}
-    \item $\Phi_{LBP}(i)=\bar{\textbf{x}}_i=(\bar{0}_{i_1},\bar{1}_{i_1},...,\bar{x}_{i_1},...,\bar{255}_{i_1},...,\bar{0}_{i_j},\bar{1}_{i_j},...,\bar{x}_{i_j},...,\bar{255}_{i_j},...,\bar{0}_{i_k},\bar{1}_{i_k},...,\bar{x}_{i_s},...,\bar{255}_{i_s})$
-\end{enumerate}
+\begin{equation}
+    \Phi_{LBP}(i)=\bar{\textbf{x}}_i=(\bar{0}_{i_1},\bar{1}_{i_1},...,\bar{x}_{i_1},...,\bar{255}_{i_1},...,\bar{0}_{i_j},\bar{1}_{i_j},...,\bar{x}_{i_j},...,\bar{255}_{i_j},...,\bar{0}_{i_k},\bar{1}_{i_k},...,\bar{x}_{i_s},...,\bar{255}_{i_s})
+\end{equation}
 
 Данное описание уже не является гистограммой, так как сумма значений его элементов равна $s$.
 
