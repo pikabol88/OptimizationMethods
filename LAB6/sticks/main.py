@@ -7,6 +7,7 @@ from scipy.optimize import linprog
 def main():
     with open("output/matrix.txt", "r") as matrix_file:
         matrix = [[-int(num) for num in line.split()] for line in matrix_file]
+    print(f"Matrix columns: {len(matrix[0])}")
     
     with open("output/free_vector.txt", "r") as free_vec_file:
         free_vec = [[-int(num) for num in line.split()] for line in free_vec_file]
