@@ -46,7 +46,7 @@ int main() {
     }
 
     for (const auto &el : amounts)
-        free_vector_file << el * 2 << " ";
+        free_vector_file << el << " ";
 
     for (const auto &el : subs)
         target_func_file << el << " ";
