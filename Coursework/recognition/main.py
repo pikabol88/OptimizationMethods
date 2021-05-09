@@ -1,4 +1,3 @@
-import pylab as pl
 import numpy as np
 
 from matplotlib import pyplot as plt
@@ -6,10 +5,11 @@ from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import fetch_lfw_people
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
 from sklearn.decomposition import PCA as RandomizedPCA
 from sklearn.svm import SVC
+
 
 def title(y_pred, y_test, target_names, i):
     pred_name = target_names[y_pred[i]].rsplit(' ', 1)[-1]
@@ -80,7 +80,6 @@ def main():
     plot_gallery(eigenfaces, eigenface_titles, h, w)
     plt.show()
 
-    from sklearn.metrics import accuracy_score
     score = accuracy_score(y_test, y_pred)
     print(score)
     
