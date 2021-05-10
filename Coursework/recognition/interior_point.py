@@ -6,7 +6,7 @@ from mlfromscratch.supervised_learning import SupportVectorMachine as SVM
 from mlfromscratch.utils.kernels import rbf_kernel
 from mlfromscratch.utils import normalize
 
-from recognition.plots import title, plot_gallery
+from recognition.utils import title, plot_gallery, convert_target
 
 
 def interior_point():
@@ -16,7 +16,7 @@ def interior_point():
     # print(digits.data) # features
     # print(digits.target) # actual label
 
-    X_train, X_test, y_train, y_test = train_test_split(X, digits.target, test_size=0.1)
+    X_train, X_test, y_train, y_test = train_test_split(X, convert_target(digits.target), test_size=0.1)
 
     clf = SVM(kernel=rbf_kernel, gamma=0.001, C=100) # SVM Classifier
 

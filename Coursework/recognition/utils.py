@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-
+import numpy as np
 
 def title(y_pred, y_test, target_names, i):
     pred_name = target_names[int(y_pred[i])]
@@ -19,3 +19,15 @@ def plot_gallery(images, titles, h, w, n_row=3, n_col=4):
         plt.yticks(())
 
     plt.show()
+
+
+def convert_target(target):
+    new_target = list()
+
+    for mark in target:
+        if mark < 5:
+            new_target.append(0)
+        else:
+            new_target.append(1)
+
+    return np.array(new_target)

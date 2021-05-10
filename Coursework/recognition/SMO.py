@@ -3,7 +3,7 @@ from sklearn import svm
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, accuracy_score
 
-from recognition.plots import title, plot_gallery
+from recognition.utils import title, plot_gallery
 
 
 def SMO():
