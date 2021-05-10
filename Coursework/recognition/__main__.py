@@ -1,3 +1,3 @@
-from recognition.main import main
+from recognition.main_alt import main
 
 main()
