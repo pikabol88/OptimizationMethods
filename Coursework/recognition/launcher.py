@@ -26,7 +26,7 @@ def launch(method: str, convert_classes: bool = False, verbose: bool = False, gr
     Returns:
         int: Accuracy score
     """
-    
+
     # Load dataset of 180 graphical numbers
     digits = datasets.load_digits()
     n_samples, h, w = digits.images.shape
@@ -71,10 +71,10 @@ def launch(method: str, convert_classes: bool = False, verbose: bool = False, gr
     y_pred = clf.predict(X_test)
 
     # Metrics
+    score = accuracy_score(y_test, y_pred)
     if verbose:
         print(f"Confusion matrix:\n{confusion_matrix(y_test, y_pred)}")
-    score = accuracy_score(y_test, y_pred)
-    print(f"Accuracy score: {score}")
+        print(f"Accuracy score: {score}")
     
     # Plots
     if graphical:
