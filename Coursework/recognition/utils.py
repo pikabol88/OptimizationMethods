@@ -1,18 +1,23 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def title(y_pred, y_test, target_names, i):
-    pred_name = target_names[int(y_pred[i])]
-    exp_name = target_names[y_test[i]]
+def title(y_pred, y_test, target_names, idx):
+    if y_pred.max() == 1 and y_test.max() == 1 and target_names.max() == 1:
+        pred_name = "Less or equal than 4" if int(y_pred[idx]) == 0 else "Greater or equal than 5"
+        exp_name = "Less or equal than 4" if y_test[idx] == 0 else "Greater or equal than 5"
+    else:
+        pred_name = target_names[int(y_pred[idx])]
+        exp_name = target_names[y_test[idx]]
+    
     return f"predicted: {pred_name}\nexpected:      {exp_name}"
 
 
-def plot_gallery(images, titles, h, w, n_row=3, n_col=4):
-    plt.figure(figsize=(1.8 * n_col, 2.4 * n_row))
+def plot_gallery(images, titles, h, w, rows = 3, cols = 4):
+    plt.figure(figsize=(1.8 * cols, 2.4 * rows))
     plt.subplots_adjust(bottom=0, left=.01, right=.99, top=.90, hspace=.35)
 
-    for i in range(n_row * n_col):
-        plt.subplot(n_row, n_col, i + 1)
+    for i in range(rows * cols):
+        plt.subplot(rows, cols, i + 1)
         plt.imshow(images[i].reshape((h, w)), cmap=plt.cm.gray)
         plt.title(titles[i], size=12)
         plt.xticks(())
