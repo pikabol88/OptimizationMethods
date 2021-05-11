@@ -33,6 +33,7 @@ def launch(method: str, convert_classes: bool = False, verbose: bool = False, gr
 
     # Debug info
     if verbose:
+        print(f"Amount of pictures: {n_samples}")
         print(f"Array of features\n: {digits.data}")
         print(f"Array of corresponding labels: {digits.target}")
 
