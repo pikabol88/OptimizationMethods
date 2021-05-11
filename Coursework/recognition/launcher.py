@@ -10,7 +10,15 @@ from recognition.utils import title, plot_gallery, convert_target
 from recognition.slsqp import MaxMarginClassifier
 
 
-def launch(method: str, convert_classes: bool = False, verbose: bool = False, graphical = False, plot_rows = 3, plot_cols = 4) -> int:
+def launch(
+    method: str,
+    convert_classes: bool = False, 
+    verbose: bool = False, 
+    graphical: bool = False, 
+    plot_rows: int = 3, 
+    plot_cols: int = 4
+    ) -> int:
+    
     """
     Args:
         method (str): Must be either 'SMO', 'IP' or 'SLSQP'
@@ -27,12 +35,13 @@ def launch(method: str, convert_classes: bool = False, verbose: bool = False, gr
         int: Accuracy score
     """
 
-    # Load dataset of 180 graphical numbers
+    # Load dataset of 1800 graphical numbers
     digits = datasets.load_digits()
     n_samples, h, w = digits.images.shape
 
     # Debug info
     if verbose:
+        print(f"Current method: {method}")
         print(f"Amount of pictures: {n_samples}")
         print(f"Array of features\n: {digits.data}")
         print(f"Array of corresponding labels: {digits.target}")
@@ -49,7 +58,7 @@ def launch(method: str, convert_classes: bool = False, verbose: bool = False, gr
     # Split data to train and test
     if verbose:
         print("Splitting data to train and test")
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
 
     # Select SVM Classifier
     if method == 'SMO':

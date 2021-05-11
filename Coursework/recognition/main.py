@@ -5,7 +5,7 @@ from recognition.launcher import launch
 def main():
     exp_count = 5
 
-    verbose = False
+    verbose = True
     graphical = False
     plot_rows = 3
     plot_cols = 4
