@@ -1,7 +1,6 @@
-\documentclass[12pt,a4paper]{article}
 \begin{document}
 \subsection{Постановка задачи квадратичного программирования}
-\textit{Задача квадратичного программирования} - задача минимизации квадратичной функции на выпуклом многогранном множестве $\Omega:$
+\textit{Задача квадратичного программирования} - задача минимизации квадратичной функции на выпуклом многогранном множестве $\Omega$ [3, 5]:
 \begin{equation}
     F(x)=\frac{1}{2}<Dx,x>+<c,x>\rightarrow\min_{x\in\Omega},
     \label{task}
@@ -24,18 +23,18 @@
 \begin{equation}
         G(y)=\frac{1}{2}<Qy,y>+<d,y>-\frac{1}{2}<D^{-1}c,c>\rightarrow\max_{y\in\Omega},
 \end{equation}
-гдe $c\geq0,Q=-AD^{-1}A^T,d=-b-AD^{-1}c$.
+гдe $c\geq0,Q=-AD^{-1}A^T,d=-b-AD^{-1}c$ [5, 13].
 
-\textbf{Теорема 1:} Задача \eqref{task} разрешима $\leftrightarrow\Omega\not=\emptyset$ и целевая функция $F(x)$ ограничена снизу на множестве планов.
+\textbf{Теорема 1:} Задача \eqref{task} разрешима $\leftrightarrow\Omega\not=\emptyset$ и целевая функция $F(x)$ ограничена снизу на множестве планов [3, 13].
 
-\textbf{Теорема 2:} Пусть $\Omega\not=\emptyset$. Задача \eqref{task} разрешима, если выполнено хотя бы одно из условий:
+\textbf{Теорема 2:} Пусть $\Omega\not=\emptyset$. Задача \eqref{task} разрешима, если выполнено хотя бы одно из условий [3, 13]:
 \begin{enumerate}
     \item множество $\Omega$ ограничено
     \item матрица $D$ положительно определена
     \item линейная часть целевой функции $<c,x>$ ограничена снизу на $\Omega$
 \end{enumerate}
 
-\textbf{Лемма:} вектор $x^*\in\Omega$ - решение задачи \eqref{task} $\leftrightarrow<F'(x^*),(x-x^*)>\geq0\forall x\in\Omega$.
+\textbf{Лемма:} вектор $x^*\in\Omega$ - решение задачи \eqref{task} $\leftrightarrow<F'(x^*),(x-x^*)>\geq0\forall x\in\Omega$ [3, 16-17].
 
 \textbf{Теорема Куна-Такера:} вектор $x^*[N]$ - решение задачи \eqref{task} $\leftrightarrow \exists u^*[M],y^*[N],v^*[N]$, удовлетворяющих условиям:
 \begin{equation}
@@ -56,5 +55,5 @@
 \end{equation}
 При этом $F(x^*)=\frac{1}{2}(<c,x^*>+<b,u^*>)$.
 
-Таким образом, решение задачи \eqref{task} равносильно разрешению системы теоремы Куна-Такера. Если данная система несовместна, то исходная задача неразрешима, и наоборот.
+Таким образом, решение задачи \eqref{task} равносильно разрешению системы теоремы Куна-Такера. Если данная система несовместна, то исходная задача неразрешима, и наоборот [3, 17-21].
 \end{document}
