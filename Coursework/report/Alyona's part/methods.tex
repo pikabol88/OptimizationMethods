@@ -19,8 +19,37 @@
 	\subsubsection{Прямо-двойственный метод внутренней точки}
 	Прямо-двойственный метод внутренней точки) оптимизирует прямые и двойственные переменные $(x, \lambda, \mu)$ путем
 	решения линеаризованной возмущенной системы Куна-Таккера:
+	\begin{equation}
+		\left[
+		\begin{matrix}
+			\bigtriangledown^2f_0(x) + \sum_{i=1}^{m}	\bigtriangledown^2f_i(x)&  	\bigtriangledown f(x)^T & A^T\\ 
+			diag(\lambda)\bigtriangledown f(x) & diag(f(x))  & O\\
+			A & O & O
+		\end{matrix}
+		\right] 
+		\left[
+		\begin{matrix}
+			d_x \\
+			d_\lambda \\
+			d_\mu \\
+		\end{matrix}
+		\right] = - 
+		\left[
+		\begin{matrix}
+			\bigtriangledown f_0(x) + 	\bigtriangledown f(x)^T\lambda + A^T\mu \\  	
+			diag(\lambda)f(x) + \frac{1}{\tau}\epsilon\\
+			Ax - b
+		\end{matrix}
+		\right] =\\
+		 = - \left[
+		\begin{matrix}
+			r_{dual}(x, \lambda, \mu) \\
+			r_{center}(x, \lambda, \mu) \\
+			r_{primal}(x, \lambda, \mu) \\
+		\end{matrix}
+		\right] = -r(x, \lambda, \mu).
+	\end{equation}
 
-	
 	Здесь через $diag(\lambda)$ обозначена диагональная матрица, в которой на диагонали стоит вектор $\lambda$, через $f(x)$ – 
 	вектор $[f_1(x), . . . , f_m(x)]^T$, через $\bigtriangledown f(x)$ – матрица производных, в которой в позиции $(ij)$ стоит $\frac{\partial}{\partial x_i}f_i(x)$, а через
 	$e$ – вектор из единиц.
