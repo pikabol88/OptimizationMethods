@@ -1,0 +1,36 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{misccorr}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[left=20mm,right=10mm, top=20mm,bottom=20mm,bindingoffset=0mm]{geometry}
+
+\setlength{\parskip}{6pt}
+\DeclareGraphicsExtensions{.png}
+
+\begin{document}
+\section{Практика}
+В качестве практической задачи будем рассматривать задачу распознавания цифр с картинки. При решении задачи, будут использоваться разные классификаторы SVM, каждый из которых будет использовать разные методы для решения задачи квадратичного программирования при построении оптимальной гиперплоскости.
+
+Создание разных SVM классификаторов с нуля - достаточно трудоёмкая задача, не рассматриваемая в данной работе. В рассмотренной задаче использовались 3 разных уже готовых классификатора: \href{https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html}{SVC из пакета sklearn.svm}, \href{https://github.com/eriklindernoren/ML-From-Scratch}{SupportVectorMachine из библиотеки Machine Learning From Scratch} и \href{https://towardsdatascience.com/support-vector-machines-learning-data-science-step-by-step-f2a569d90f76}{MaxMarginClassifier из статьи журнала towards data science}. Помимо этого активно используются утилиты из разных пакетов библиотеки sklearn.
+
+Классификатор из sklearn реализует наиболее распространённый метод решения задачи квадратичного программирования в SVM - последовательная минимальная оптимизация (SMO). Программная реализация SMO берётся из си-библиотеки libsvm.
+Классификатор из ML From Scratch использует метод внутренней точки (IP), реализация которого берётся из питон-библиотеки CVXOPT.
+Классификатор из Towards Data Science использует метод последовательного квадратичного программирования наименьших квадратов (SLSQP). Программная реализация SLSQP берётся из питон-библиотеки scipy.
+
+\href{}{}В качестве тестовых данных будет использоваться размеченный датасет \href{https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html}{digits из пакета sklearn.datasets}, который содержит 10 классов (цифры от 0 до 9 включительно) по ~180 образцов на каждый класс. Суммарно получается датасет из ~1800 образцов.
+
+В качестве метрики качества предсказаний используется \href{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html}{accuracy score из пакета sklearn.metrics}, который считает отношение числа верных предсказаний к общему числу всех предсказаний.
+
+Поскольку SVM в первую очередь является методом бинарной классификации, а датасет содержит в себе 10 размеченных классов, то как дополнительный эксперимент проводится переразметка данных под 2 класса и распознавание по ним.
+
+По итогам практического эксперимента, составляется таблица среднего accuracy score по 5 экспериментам для каждого из 3 классификаторов (SMO, IP, SLSQP) для распонавания по 10 классам и по 2 классам.
+
+\end{document}
