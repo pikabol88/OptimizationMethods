@@ -3,6 +3,7 @@
 *.zip filter=lfs diff=lfs merge=lfs -text lockable
 *.jpg filter=lfs diff=lfs merge=lfs -text lockable
 *.png filter=lfs diff=lfs merge=lfs -text lockable
+*.pptx filter=lfs diff=lfs merge=lfs -text lockable
 
 *.py encoding=utf-8
 *.txt encoding=utf-8
